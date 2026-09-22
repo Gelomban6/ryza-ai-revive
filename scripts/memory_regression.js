@@ -104,7 +104,7 @@ Memory.add('session-b', 'session');
   ok(bag.pending.length === 0 && bag.sessions.length === 1,
      'two exchanges at turnsPerSession=2 flush into one session');
 
-  /* --- packing / models --- */
+  /* Packing / models */
   ok(Api.guessContext('gpt-4o-mini') === 128000, 'guess gpt-4o context');
   ok(Api.guessContext('unknown-local') === 0, 'unknown model has no guess');
   const or = Api.parseModelEntry({

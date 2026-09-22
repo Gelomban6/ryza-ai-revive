@@ -37,7 +37,7 @@ const src = fs.readFileSync(path.join(WEB, 'vendor', 'spine-webgl.js'), 'utf8');
 // trailing identifier resolves to the exported namespace.
 const spine = eval(src + '\n;spine');
 
-/* ---------------------------------------------------------------- stub DOM */
+/* Stub DOM */
 function fakeEl() {
   return {
     style: {},
@@ -119,7 +119,7 @@ const Avatar = g.Avatar;
 const Util = g.Util;
 if (!Avatar || !Util) { fail('avatar.js / util.js did not attach to the stub window'); }
 
-/* ------------------------------------------------------- skeleton factory */
+/* Skeleton factory */
 class StubRegion {
   constructor(n) {
     this.name = n; this.width = 2; this.height = 2;
@@ -197,7 +197,7 @@ function resetAvatar(skin) {
   return L;
 }
 
-/* ------------------------------------------------------------ frame driver */
+/* Frame driver */
 const BASE_IDLE_RE = /^motion_A_/;
 
 function stepOnce(L, label) {
@@ -256,7 +256,7 @@ function soak(L, label, seconds, probe) {
   }
 }
 
-/* ------------------------------------------------------------- assertions */
+/* Assertions */
 function assertTrack0IsBaseIdle(L, label) {
   const cur = L.state.getCurrent(0);
   if (!cur || !cur.animation || !BASE_IDLE_RE.test(cur.animation.name)) {
@@ -282,7 +282,7 @@ function assertMixingNotStuck(L, label) {
 }
 function fail(msg) { console.error('FAIL ' + msg); process.exit(1); }
 
-/* ---- hashHex: the .skel hash is two *signed* 32-bit halves concatenated
+/* HashHex: the .skel hash is two *signed* 32-bit halves concatenated
    ("-2a81ab33" + "-1db7ab26"); MixDurationPoses.sourceHash is the unsigned
    16-hex form. Both skins must agree, else the distance-mix path is dead. */
 function checkHash(skin, L) {
@@ -301,7 +301,7 @@ function checkHash(skin, L) {
   return norm;
 }
 
-/* ------------------------------------------------------------------- suite */
+/* Suite */
 const EMOTIONS = ['neutral', 'happy', 'laughing', 'tease', 'shy', 'cuddle', 'sad', 'crying', 'angry'];
 const ATTITUDES = ['agree', 'deny', 'question'];
 const PARTS = ['head', 'body', 'arm_l', 'arm_r', 'weast', 'breast', null];
@@ -516,7 +516,7 @@ for (const skin of SKINS) {
   console.log('OK   ' + label + ' — ' + (3 + 1 + 2 + 6 + 3 + 3 + 120 + 120 + 90) + 's simulated');
 }
 
-/* ---- one-shot overlay mix: must be the saturation floor, not 1–2 s full mix */
+/* One-shot overlay mix: must be the saturation floor, not 1–2 s full mix */
 (function checkOverlayMix() {
   const skin = SKINS[0];
   const L = resetAvatar(skin);
@@ -534,7 +534,7 @@ for (const skin of SKINS) {
   console.log('OK   mix maths: overlay=' + got.toFixed(3) + ' distance=' + between.toFixed(3));
 })();
 
-/* ---- layer exclusivity from OccupancyLetters (AUDIT §3.4-5) */
+/* Layer exclusivity from OccupancyLetters (AUDIT §3.4-5) */
 (function checkOccupancy() {
   const skin = SKINS[0];
   resetAvatar(skin);
@@ -556,7 +556,7 @@ for (const skin of SKINS) {
   console.log('OK   occupancy kinds ' + JSON.stringify(kinds));
 })();
 
-/* ---- wind stays additive, occupancy stays replace (the pillar-arm bug) */
+/* Wind stays additive, occupancy stays replace (the pillar-arm bug) */
 (function checkBlends() {
   const skin = SKINS[0];
   const L = resetAvatar(skin);
@@ -576,9 +576,9 @@ for (const skin of SKINS) {
   console.log('OK   blends: wind=add, occupancy=replace');
 })();
 
-/* ---- tap hit-test precision (AUDIT §5.6): only inside the author's BB_*
+/* Tap hit-test precision (AUDIT §5.6): only inside the author's BB_*
    polygons AND on the visible silhouette; misses must return null (the old
-   220u bone-radius fallback was the "点其他地方也触发" misfire). ---- */
+   220u bone-radius fallback was the "点其他地方也触发" misfire). */
 (function checkHitParts() {
   for (const skin of SKINS) {
     const L = resetAvatar(skin);
@@ -627,8 +627,8 @@ for (const skin of SKINS) {
                 ' part centroids hit, silhouette gate + misses → null');
   }
 
-  /* ---- poke exit: limb layers must re-blend while the exit fade still runs
-     (one continuous settle, not reaction→bare idle→limbs-pop-back). ---- */
+  /* Poke exit: limb layers must re-blend while the exit fade still runs
+     (one continuous settle, not reaction→bare idle→limbs-pop-back). */
   const skin = SKINS[0];
   const L = resetAvatar(skin);
   Avatar.setEmotion('neutral', 'agree', true);
@@ -757,7 +757,7 @@ for (const skin of SKINS) {
   console.log('OK   sad poke parks mouth track then restores idle');
 })();
 
-/* ---- every animation named in the gesture table exists in the .skel */
+/* Every animation named in the gesture table exists in the .skel */
 (function checkNamesResolve() {
   let missing = [];
   for (const skin of SKINS) {
@@ -812,7 +812,7 @@ for (const skin of SKINS) {
 
 console.log('\n' + passCount + ' skins + 5 invariant checks passed.');
 
-/* ---- posture + camera invariants (the 隠れ家前 regression) -------------
+/* Posture + camera invariants (the 隠れ家前 regression)
    Everything here is what the user sees as 「黑边 / 背景跳 / 模型搞反 /
    切场景后是放大的坐姿」. Scene plates are loaded from the real shipped
    .skel files with a stub atlas: only geometry matters. */

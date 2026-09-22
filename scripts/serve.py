@@ -17,7 +17,7 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qs, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import Request, urlopen, build_opener, ProxyHandler
 
 ROOT = Path(__file__).resolve().parent.parent
 WEB = ROOT / "web"
@@ -42,6 +42,9 @@ class Handler(SimpleHTTPRequestHandler):
         if path == "/_proxy":
             self._proxy_get(parsed)
             return
+        if path == "/_edge_tts":
+            self._handle_edge_tts(parsed)
+            return
         if path == "/config/providers.json" and PROVIDERS.is_file():
             raw = PROVIDERS.read_bytes()
             self.send_response(200)
@@ -53,13 +56,25 @@ class Handler(SimpleHTTPRequestHandler):
             return
         return SimpleHTTPRequestHandler.do_GET(self)
 
+    def _open(self, req, timeout=180, target=""):
+        host = ""
+        try:
+            host = (urlparse(target).hostname or "").lower()
+        except Exception:
+            pass
+        # Bypass system proxies for local loopback / LAN endpoints (Ollama, LM Studio, etc.)
+        if host in ("localhost", "127.0.0.1", "::1", "0.0.0.0") or host.startswith("192.168.") or host.startswith("10.") or host.startswith("172."):
+            opener = build_opener(ProxyHandler({}))
+            return opener.open(req, timeout=timeout)
+        return urlopen(req, timeout=timeout)
+
     def _proxy_get(self, parsed):
         """GET /_proxy?u=<https url> — forwards a GET (Qwen TTS returns
         time-limited OSS audio URLs; the page pulls them through here so
         the blob is same-origin for the lip-sync analyser)."""
         target = (parse_qs(parsed.query).get("u") or [""])[0]
-        if not target.startswith("https://"):
-            self.send_error(400, "proxy target must be https")
+        if not (target.startswith("https://") or target.startswith("http://")):
+            self.send_error(400, "proxy target must be http or https")
             return
         try:
             headers = {"User-Agent": UA}
@@ -70,7 +85,7 @@ class Handler(SimpleHTTPRequestHandler):
             if apikey:
                 headers["api-key"] = apikey
             req = Request(target, headers=headers, method="GET")
-            with urlopen(req, timeout=120) as resp:
+            with self._open(req, timeout=120, target=target) as resp:
                 data = resp.read()
                 self.send_response(resp.status)
                 self.send_header("Content-Type", resp.headers.get("Content-Type") or "application/octet-stream")
@@ -91,6 +106,52 @@ class Handler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(msg)
 
+    def _handle_edge_tts(self, parsed):
+        qs = parse_qs(parsed.query)
+        text = (qs.get("text") or [""])[0]
+        voice = (qs.get("voice") or ["ja-JP-NanamiNeural"])[0]
+        if not text:
+            self.send_error(400, "text parameter required")
+            return
+        try:
+            import edge_tts
+            import asyncio
+        except ImportError:
+            msg = json.dumps({"error": {"message": "edge-tts not installed on server. Run: pip install edge-tts"}}).encode("utf-8")
+            self.send_response(503)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(msg)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(msg)
+            return
+
+        async def _synthesize():
+            communicate = edge_tts.Communicate(text, voice)
+            audio_bytes = bytearray()
+            async for chunk in communicate.stream():
+                if chunk["type"] == "audio":
+                    audio_bytes.extend(chunk["data"])
+            return bytes(audio_bytes)
+
+        try:
+            audio = asyncio.run(_synthesize())
+            self.send_response(200)
+            self.send_header("Content-Type", "audio/mpeg")
+            self.send_header("Content-Length", str(len(audio)))
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(audio)
+        except Exception as e:
+            msg = json.dumps({"error": {"message": str(e)}}).encode("utf-8")
+            self.send_response(500)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(msg)))
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            self.wfile.write(msg)
+
     def do_OPTIONS(self):
         self.send_response(204)
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -104,8 +165,8 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_error(404, "use POST /_proxy")
             return
         target = (parse_qs(parsed.query).get("u") or [""])[0]
-        if not target.startswith("https://"):
-            self.send_error(400, "proxy target must be https")
+        if not (target.startswith("https://") or target.startswith("http://")):
+            self.send_error(400, "proxy target must be http or https")
             return
         n = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(n) if n else b""
@@ -121,7 +182,7 @@ class Handler(SimpleHTTPRequestHandler):
             headers["api-key"] = apikey
         req = Request(target, data=body, headers=headers, method="POST")
         try:
-            with urlopen(req, timeout=180) as resp:
+            with self._open(req, timeout=180, target=target) as resp:
                 data = resp.read()
                 self.send_response(resp.status)
                 ctype = resp.headers.get("Content-Type") or "application/json"
@@ -145,10 +206,24 @@ class Handler(SimpleHTTPRequestHandler):
             self.wfile.write(msg)
 
 
+def get_lan_ip() -> str:
+    import socket
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.connect(("8.8.8.8", 80))
+            return s.getsockname()[0]
+    except Exception:
+        return "127.0.0.1"
+
+
 def main():
     os.chdir(WEB)
-    httpd = Server(("127.0.0.1", PORT), partial(Handler, directory=str(WEB)))
-    print("Ryza chat  http://127.0.0.1:%d/  (static + LLM proxy)" % PORT, flush=True)
+    httpd = Server(("0.0.0.0", PORT), partial(Handler, directory=str(WEB)))
+    lan = get_lan_ip()
+    print("Ryza chat running:", flush=True)
+    print("  Laptop:   http://127.0.0.1:%d/" % PORT, flush=True)
+    if lan != "127.0.0.1":
+        print("  HP / LAN: http://%s:%d/" % (lan, PORT), flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

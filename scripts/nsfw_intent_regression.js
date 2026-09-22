@@ -159,7 +159,7 @@ const shipped = path.join(WEB, 'assets', 'spine', 'crf_chr_002',
                           'crf_skn_002_0001_99', 'crf_skn_002_0001_99nsfw.png');
 ok(fs.existsSync(shipped), 'runtime nsfw page is next to the standing atlas');
 
-/* --- proxy routing (desktop shell regression: ryza://app must NOT bypass) ---
+/* Proxy routing (desktop shell regression: ryza://app must NOT bypass)
    1.2.9 moved the desktop page from http://127.0.0.1:<port> to ryza://app.
    localProxy keyed off the loopback origin only, so every LLM/TTS call
    skipped /_proxy and died on CORS. All hosts that ship a /_proxy must
@@ -172,12 +172,13 @@ function routedFrom(origin) {
 }
 ok(routedFrom('http://127.0.0.1:8765'), 'serve.py loopback routes through /_proxy');
 ok(routedFrom('http://localhost:8765'), 'localhost routes through /_proxy');
+ok(routedFrom('http://192.168.1.11:8765'), 'LAN IP routes through /_proxy');
 ok(routedFrom('ryza://app'), 'desktop ryza://app routes through /_proxy (1.2.9 fix)');
 sandbox.location = { origin: 'https://elsewhere.test' };
 ok(sandbox.Api._localProxy(PROXY_TARGET) === PROXY_TARGET, 'foreign browser origin calls the endpoint direct');
 sandbox.location = { origin: 'http://127.0.0.1:8765' };
 
-/* --- Qwen TTS: same protocol, different hosts; model ids change --- */
+/* Qwen TTS: same protocol, different hosts; model ids change */
 const HOST = 'https://dashscope.aliyuncs.com';
 ok(A._qwenApiRoot('') === HOST, 'empty base → public DashScope');
 ok(A._qwenApiRoot('https://dashscope.aliyuncs.com/') === HOST, 'trailing slash stripped');
@@ -221,7 +222,7 @@ ok(A._localProxy(A._qwenHttpsUrl('http://dashscope-result-bj.oss-cn-beijing.aliy
      .indexOf('https%3A') >= 0,
    'proxied OSS download is https');
 
-/* --- Fish Audio Open API: host normalize + local-sample clone --- */
+/* Fish Audio Open API: host normalize + local-sample clone */
 const FISH = 'https://fishaudio.org/api/open/v1';
 ok(!A.FISH_DEFAULT_VOICE, 'no shipped Fish voice id (clone from local samples)');
 ok(A._fishSampleUrls().indexOf('assets/audio/prologue/jp/prologue_08.m4a') >= 0,

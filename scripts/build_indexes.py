@@ -20,7 +20,7 @@ def w(name, obj):
     print("  %-22s %s" % (name, p))
 
 
-# ---------------------------------------------------------------- voice bank
+# Voice bank
 # assets/audio/alarm/<locale>/<style>/<type>/<time>/<n>.m4a  (+ .env.json)
 VOICE = {}
 vroot = os.path.join(ASSETS, "audio", "alarm")
@@ -53,7 +53,7 @@ n_voice = sum(len(v) for l in VOICE.values() for s in l.values()
 w("voice_bank.json", VOICE)
 print("     -> %d clips" % n_voice)
 
-# ------------------------------------------------------------------- scenes
+# Scenes
 # assets/spine/scenes/<stageId>_<tod>/spine/<stageId>_<tod>.skel
 # plus a sibling <stageId>_<tod>.json holding per-scene rig config.
 SCENES = {}
@@ -75,7 +75,7 @@ w("scenes.json", SCENES)
 print("     -> %d stages x %s" % (len(SCENES), sorted(
     {t for v in SCENES.values() for t in v})))
 
-# -------------------------------------------------------------------- skins
+# Skins
 def discover_variants(full, sid, chr_id):
     """Extra atlas pages next to a skin: `{sid}nsfw.png` → variants.nsfw.
 
@@ -149,7 +149,7 @@ if os.path.isdir(skindir):
 w("skins.json", SKINS)
 print("     -> %d skins (%d with skeleton)" % (len(SKINS), sum(1 for s in SKINS if s["hasSpine"])))
 
-# ------------------------------------------------------------- misc indexes
+# Misc indexes
 def listdir_rel(sub, exts=None):
     d = os.path.join(ASSETS, sub)
     if not os.path.isdir(d):

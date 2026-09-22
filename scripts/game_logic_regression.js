@@ -14,7 +14,7 @@ function ok(cond, name) {
   else { failures++; console.log('  FAIL ' + name); }
 }
 
-/* ------------------------------------------------------------- stubs */
+/* Stubs */
 const store = {};
 const localStorage = {
   getItem: (k) => (k in store ? store[k] : null),
@@ -73,7 +73,7 @@ load('world.js');
 
 const { Game, Quests, Daily, Config, Api, World } = sandbox;
 
-/* ------------------------------------------------------------ basics */
+/* Basics */
 console.log('# Game basics');
 Game.load();
 ok(Game.level() === 1, 'start at level 1');

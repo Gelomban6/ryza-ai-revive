@@ -6,8 +6,9 @@ config/android-tools.local.txt
 
 # Binary media is not shipped in git. Restore locally with
 # scripts/restore_media.py from a Release package / unpacked desktop tree.
-# Generic shell icons (desktop/build/icon.png, android ic_launcher.png) ARE tracked.
+# Generic shell and UI placeholder icons ARE tracked.
 web/assets/**/*.png
+!web/assets/images/chara_placeholder.png
 web/assets/**/*.jpg
 web/assets/**/*.jpeg
 web/assets/**/*.webp

@@ -215,6 +215,13 @@
       'settings.lang.llm': '莱莎回复语言', 'settings.lang.tts': '朗读语言',
       'settings.lang.ttsHint': '朗读语言与回复语言不同时会先翻译再合成（文字仍显示回复语言）',
       'settings.tts.provider': 'TTS 服务', 'settings.tts.provider.openai': 'OpenAI 兼容（MiMo 等）',
+      'settings.tts.provider.openaiSpeech': 'OpenAI 兼容 Speech (/audio/speech，支持 Kokoro / Sherpa)',
+      'settings.tts.provider.edge': 'Edge TTS（免费，由服务端运行）',
+      'settings.edgeVoice': 'Edge 声音 (Voice)',
+      'settings.edgeVoice.hint': '例如 ja-JP-NanamiNeural、zh-CN-XiaoxiaoNeural、en-US-JennyNeural、id-ID-GadisNeural',
+      'qa.greet': '打招呼', 'qa.sleep': '去睡觉', 'qa.status': '体力状态', 'qa.bag': '打开背包',
+      'qa.greetMsg': '莱莎，你好呀！今天过得怎么样？',
+      'qa.sleepMsg': '莱莎，我们去休息睡觉恢复体力吧！',
       'settings.tts.provider.qwen': 'Qwen / 百炼（DashScope 兼容）',
       'settings.tts.provider.fish': 'Fish Audio',
       'settings.qwenModel': 'Qwen TTS 模型', 'settings.qwenVoice': 'Qwen 音色',
@@ -233,7 +240,32 @@
       'settings.cloneFish': '用莱莎原声复刻（Fish）',
       'toast.cloning': '正在向百炼注册复刻音色…', 'toast.cloningFish': '正在向 Fish Audio 注册复刻音色…',
       'toast.cloneOk': '复刻完成，音色 ID 已填入',
-      'toast.cloneFail': '复刻失败：'
+      'toast.cloneFail': '复刻失败：',
+      'drawer.foot': '离线重建版 · 不连接官方服务器',
+      'alarm.newBtn': '+ 新闹钟',
+      'alarm.daysHint': '全不选即每天',
+      'toast.needTime': '请填写时间',
+      'settings.baseUrlHint': 'OpenAI 兼容地址，以 /v1 结尾；也可放 config/providers.json 自动水合',
+      'settings.cloneModelHint': '克隆通道使用的模型 id（服务端提供，如 MiMo 的声音克隆模型）',
+      'settings.refAudioHint': '必须是 wav 或 mp3；APK 里的原声是 m4a，需先转码',
+      'settings.presetModelHint': '预设音色通道使用的模型 id（服务端提供）',
+      'settings.importPrompt': '粘贴配置 JSON',
+      'toast.importFail': '配置解析失败：',
+      'toast.testing': '测试中…',
+      'toast.synthesizing': '合成中…',
+      'toast.voiceOff': '语音已关闭',
+      'toast.failed': '失败：',
+      'toast.assetIndexFail': '素材索引加载失败：',
+      'toast.confirmReset': '恢复所有设置为默认值？',
+      'toast.confirmClearHist': '清空当前对话历史？',
+      'toast.cleared': '已清空',
+      'chara.titleRyza': '莱莎（角色设定）',
+      'chara.titleYou': '你（玩家设定）',
+      'chara.saveAndTalk': '保存并回到对话',
+      'chara.clearHistory': '清空对话记忆',
+      'tod.mor': '早晨', 'tod.aft': '白天', 'tod.eve': '傍晚', 'tod.ngt': '夜晚',
+      'win.pin': '窗口置顶', 'win.min': '最小化', 'win.close': '关闭',
+      'posture.sit': '坐', 'posture.stand': '站'
     },
 
     ja: {
@@ -443,6 +475,13 @@
       'settings.lang.llm': 'ライザの返事の言語', 'settings.lang.tts': '読み上げの言語',
       'settings.lang.ttsHint': '読み上げが返事と違う言語のとき、先に翻訳してから合成します（表示は返事の言語のまま）',
       'settings.tts.provider': 'TTS サービス', 'settings.tts.provider.openai': 'OpenAI 互換（MiMo など）',
+      'settings.tts.provider.openaiSpeech': 'OpenAI 互換 Speech (/audio/speech, Kokoro / Sherpa 対応)',
+      'settings.tts.provider.edge': 'Edge-TTS（無料・サーバー経由）',
+      'settings.edgeVoice': 'Edge 音声名 (Voice)',
+      'settings.edgeVoice.hint': '例: ja-JP-NanamiNeural, zh-CN-XiaoxiaoNeural, en-US-JennyNeural, id-ID-GadisNeural',
+      'qa.greet': '挨拶', 'qa.sleep': '寝る', 'qa.status': 'スタミナ確認', 'qa.bag': 'バッグを見る',
+      'qa.greetMsg': 'ライザ、こんにちは！調子はどう？',
+      'qa.sleepMsg': 'ライザ、そろそろ休んでスタミナを回復しよっか！',
       'settings.tts.provider.qwen': 'Qwen / Bailian（DashScope 互換）',
       'settings.tts.provider.fish': 'Fish Audio',
       'settings.qwenModel': 'Qwen TTS モデル', 'settings.qwenVoice': 'Qwen 音色',
@@ -461,7 +500,32 @@
       'settings.cloneFish': 'ライザの声でクローン作成（Fish）',
       'toast.cloning': 'Bailian にクローン音声を登録中…', 'toast.cloningFish': 'Fish Audio にクローン音声を登録中…',
       'toast.cloneOk': '登録完了、voice_id を入力しました',
-      'toast.cloneFail': 'クローン作成失敗：'
+      'toast.cloneFail': 'クローン作成失敗：',
+      'drawer.foot': 'オフライン再構築版 · 公式サーバー非接続',
+      'alarm.newBtn': '+ 新しいアラーム',
+      'alarm.daysHint': '未選択で毎日',
+      'toast.needTime': '時間を入力してください',
+      'settings.baseUrlHint': 'OpenAI 互換アドレス（/v1 で終わる）。config/providers.json での自動補完も可能',
+      'settings.cloneModelHint': '音声クローンで使用するモデルID（MiMo等のサーバー提供モデル）',
+      'settings.refAudioHint': 'wav または mp3 が必要。APKの原音(m4a)は要トランスコード',
+      'settings.presetModelHint': 'プリセット音声で使用するモデルID（サーバー提供）',
+      'settings.importPrompt': '設定JSONを貼り付け',
+      'toast.importFail': '設定の解析に失敗しました：',
+      'toast.testing': 'テスト中…',
+      'toast.synthesizing': '合成中…',
+      'toast.voiceOff': '音声はOFFです',
+      'toast.failed': '失敗：',
+      'toast.assetIndexFail': 'アセットインデックスの読み込みに失敗しました：',
+      'toast.confirmReset': 'すべての設定をデフォルトに戻しますか？',
+      'toast.confirmClearHist': '現在の会話履歴を消去しますか？',
+      'toast.cleared': '消去しました',
+      'chara.titleRyza': 'ライザ（キャラ設定）',
+      'chara.titleYou': 'あなた（プレイヤー設定）',
+      'chara.saveAndTalk': '保存して会話に戻る',
+      'chara.clearHistory': '会話履歴を消去',
+      'tod.mor': '朝', 'tod.aft': '昼', 'tod.eve': '夕', 'tod.ngt': '夜',
+      'win.pin': '常に最前面', 'win.min': '最小化', 'win.close': '閉じる',
+      'posture.sit': '座る', 'posture.stand': '立つ'
     },
 
     en: {
@@ -671,6 +735,13 @@
       'settings.lang.llm': 'Ryza replies in', 'settings.lang.tts': 'Speech language',
       'settings.lang.ttsHint': 'If speech differs from the reply language, the reply is translated first (display keeps the reply language)',
       'settings.tts.provider': 'TTS service', 'settings.tts.provider.openai': 'OpenAI-compatible (MiMo etc.)',
+      'settings.tts.provider.openaiSpeech': 'OpenAI-compatible Speech (/audio/speech, Kokoro / Sherpa)',
+      'settings.tts.provider.edge': 'Edge TTS (Free, server-side)',
+      'settings.edgeVoice': 'Edge Voice',
+      'settings.edgeVoice.hint': 'e.g. ja-JP-NanamiNeural, zh-CN-XiaoxiaoNeural, en-US-JennyNeural, id-ID-GadisNeural',
+      'qa.greet': 'Greet', 'qa.sleep': 'Sleep', 'qa.status': 'Stamina Status', 'qa.bag': 'Open Bag',
+      'qa.greetMsg': 'Hi Ryza! How is it going today?',
+      'qa.sleepMsg': 'Ryza, let’s take a rest and sleep to recover our stamina!',
       'settings.tts.provider.qwen': 'Qwen / Bailian (DashScope-compatible)',
       'settings.tts.provider.fish': 'Fish Audio',
       'settings.qwenModel': 'Qwen TTS model', 'settings.qwenVoice': 'Qwen voice',
@@ -689,7 +760,32 @@
       'settings.cloneFish': 'Clone Ryza\u2019s voice (Fish)',
       'toast.cloning': 'Registering cloned voice with Bailian\u2026', 'toast.cloningFish': 'Registering cloned voice with Fish Audio\u2026',
       'toast.cloneOk': 'Cloned voice ready, voice_id filled in',
-      'toast.cloneFail': 'Voice clone failed: '
+      'toast.cloneFail': 'Voice clone failed: ',
+      'drawer.foot': 'Offline rebuilt version · Not connected to official servers',
+      'alarm.newBtn': '+ New alarm',
+      'alarm.daysHint': 'leave all off for everyday',
+      'toast.needTime': 'Please enter a time',
+      'settings.baseUrlHint': 'OpenAI-compatible URL ending in /v1; or place in config/providers.json',
+      'settings.cloneModelHint': 'Model ID for voice clone (provided by server, e.g. MiMo voice clone)',
+      'settings.refAudioHint': 'Must be wav or mp3; original APK audio is m4a and requires transcoding',
+      'settings.presetModelHint': 'Model ID for preset voices (provided by server)',
+      'settings.importPrompt': 'Paste config JSON',
+      'toast.importFail': 'Failed to parse config: ',
+      'toast.testing': 'Testing…',
+      'toast.synthesizing': 'Synthesizing…',
+      'toast.voiceOff': 'Voice is off',
+      'toast.failed': 'Failed: ',
+      'toast.assetIndexFail': 'Failed to load asset index: ',
+      'toast.confirmReset': 'Reset all settings to default?',
+      'toast.confirmClearHist': 'Clear current conversation history?',
+      'toast.cleared': 'Cleared',
+      'chara.titleRyza': 'Ryza (Character Profile)',
+      'chara.titleYou': 'You (Player Profile)',
+      'chara.saveAndTalk': 'Save and return to chat',
+      'chara.clearHistory': 'Clear chat memory',
+      'tod.mor': 'Morning', 'tod.aft': 'Afternoon', 'tod.eve': 'Evening', 'tod.ngt': 'Night',
+      'win.pin': 'Pin window', 'win.min': 'Minimize', 'win.close': 'Close',
+      'posture.sit': 'Sit', 'posture.stand': 'Stand'
     }
   };
 
@@ -770,18 +866,241 @@
   });
 
   T.id = inherit(T.en, {
-    'nav.talk': 'Obrolan', 'nav.world': 'Peta dunia', 'nav.quest': 'Misi',
-    'nav.alarm': 'Alarm', 'nav.chara': 'Karakter', 'nav.skin': 'Kostum',
+    'nav.talk': 'Obrolan', 'nav.world': 'Peta Dunia', 'nav.quest': 'Misi',
+    'nav.alarm': 'Alarm', 'nav.chara': 'Profil Karakter', 'nav.skin': 'Kostum',
     'nav.memory': 'Kenangan', 'nav.settings': 'Pengaturan',
-    'world.title': 'Peta dunia', 'quest.title': 'Misi', 'alarm.title': 'Alarm',
-    'settings.title': 'Pengaturan', 'settings.lang': 'Bahasa',
-    'form.cancel': 'Batal', 'form.ok': 'OK',
-    'nav.lang': 'Bahasa', 'nav.toggleChara': 'Tampil/sembunyi karakter',
-    'nav.fullscreen': 'Layar penuh', 'nav.newTalk': 'Obrolan baru',
-    'nav.welcome': 'Misi selamat datang', 'nav.profile': 'Profil',
+    'nav.welcome': 'Misi Selamat Datang', 'nav.profile': 'Profil Pemain',
+    'nav.newTalk': 'Obrolan Baru', 'nav.lang': 'Bahasa',
+    'nav.toggleChara': 'Tampil/Sembunyi Karakter', 'nav.fullscreen': 'Layar Penuh',
+    'nav.shop': 'Toko', 'nav.save': 'Simpan Data', 'nav.backToMap': 'Kembali ke Peta Dunia',
+    'nav.daily': 'Login Harian', 'drawer.days': 'Hari ke-{n} bersama',
+    'drawer.foot': 'Versi rekonstruksi offline · Tidak terhubung ke server resmi',
+    'title.start': 'Mulai',
+    'world.title': 'Peta Dunia', 'world.here': 'Orang di sini',
+    'world.areas': 'Wilayah', 'world.empty': 'Tidak ada siapa-siapa di sini',
+    'world.back': 'Kembali', 'world.people': 'Orang di sini', 'world.peopleOf': 'Orang di sini',
+    'world.lockedToast': 'Belum ada kapal, tidak bisa keluar dari Pulau Kurken (selesaikan Misi Utama 8)',
+    'quest.title': 'Misi', 'alarm.title': 'Alarm', 'chara.title': 'Profil Karakter',
+    'skin.title': 'Kostum', 'memory.title': 'Kenangan', 'settings.title': 'Pengaturan',
+    'wm.title': 'Misi Selamat Datang', 'dl.title': 'Login Harian',
+    'inv.title': 'Inventaris', 'st.title': 'Status Petualangan',
+    'cheat.title': 'Mode Cheat', 'mode.sheet': 'Mode Obrolan',
+    'slot.title': 'Slot Penyimpanan', 'slot.empty': 'Kosong',
+    'slot.save': 'Simpan di sini', 'slot.load': 'Muat',
+    'form.cancel': 'Batal', 'form.ok': 'OK', 'form.create': 'Buat', 'form.edit': 'Edit',
+    'mode.chat': 'Santai', 'mode.story': 'Cerita', 'mode.immersive': 'Imersif',
+    'mode.asmr': 'ASMR', 'mode.text': 'Teks',
+    'mode.sub.chat': 'Mode santai bebas mengobrol',
+    'mode.sub.story': 'Mode cerita petualangan bersama Ryza',
+    'mode.sub.immersive': 'Merasakan obrolan lebih mendalam',
+    'mode.sub.asmr': 'Bisikan lembut di dekat telingamu',
+    'mode.sub.text': 'Mode obrolan teks saja',
+    'style.voice': '🔊 Suara', 'style.text': '📝 Teks',
+    'voice.on': 'Suara', 'voice.off': 'Teks',
+    'input.hint': 'Ketik sesuatu untuk berbicara dengan Ryza…',
+    'input.waiting': 'Menunggu balasan Ryza…',
+    'input.wake': 'Ketuk untuk membangunkan Ryza',
+    'talk.retryHint': 'Koneksi gagal', 'talk.retry': 'Coba lagi',
     'talk.resetTitle': 'Mulai obrolan baru?',
-    'title.start': 'Mulai', 'mode.sheet': 'Mode obrolan' , 'mode.chat': 'Obrolan', 'mode.story': 'Cerita', 'mode.immersive': 'Imersif',
-    'mode.asmr': 'ASMR', 'mode.text': 'Teks', 'style.voice': '🔊 Suara', 'style.text': '📝 Teks'
+    'talk.resetMsg': 'Sesi saat ini akan dihapus. Catatan di kenangan akan tetap tersimpan.',
+    'talk.resetOk': 'Mulai',
+    'talk.mapMove': 'Tiba di: {name}',
+    'qa.greet': 'Sapa', 'qa.sleep': 'Tidur', 'qa.status': 'Cek Stamina', 'qa.bag': 'Buka Tas',
+    'qa.greetMsg': 'Halo Ryza! Bagaimana harimu hari ini?',
+    'qa.sleepMsg': 'Ryza, ayo kita istirahat tidur untuk memulihkan stamina!',
+    'toast.saved': 'Tersimpan', 'toast.copied': 'Disalin',
+    'toast.needKey': 'Silakan isi API Key di Pengaturan terlebih dahulu',
+    'toast.needModel': 'Silakan isi nama model TTS di Pengaturan terlebih dahulu',
+    'toast.needUrl': 'Silakan isi alamat URL antarmuka terlebih dahulu',
+    'toast.needTime': 'Silakan isi waktu',
+    'toast.llmFail': 'Obrolan gagal: ', 'toast.ttsFail': 'Sintesis suara gagal: ',
+    'toast.thinking': 'Ryza sedang berpikir…',
+    'toast.ai': 'Obrolan dihasilkan oleh model yang dikonfigurasi di Pengaturan, tanpa melalui server resmi.',
+    'toast.modelsWait': 'Sedang mengambil daftar model…',
+    'toast.modelsOk': 'Berhasil mengambil {n} model',
+    'toast.modelsFail': 'Gagal mengambil daftar, silakan isi nama model secara manual: ',
+    'toast.memFlushed': 'Tersimpan ke kenangan',
+    'toast.staminaOut': 'Stamina habis, biarkan Ryza tidur',
+    'toast.sailed': 'Berhasil berlayar! Peta dunia telah terbuka',
+    'toast.questGen': 'Ryza sedang memikirkan misi baru…',
+    'toast.importFail': 'Gagal menguraikan konfigurasi: ',
+    'toast.testing': 'Sedang menguji…',
+    'toast.synthesizing': 'Sedang mensintesis…',
+    'toast.voiceOff': 'Suara dinonaktifkan',
+    'toast.failed': 'Gagal: ',
+    'toast.assetIndexFail': 'Gagal memuat indeks aset: ',
+    'toast.confirmReset': 'Kembalikan semua pengaturan ke default?',
+    'toast.confirmClearHist': 'Hapus riwayat percakapan saat ini?',
+    'toast.cleared': 'Telah dihapus',
+    'toast.cloning': 'Mendaftarkan suara klon ke Bailian…',
+    'toast.cloningFish': 'Mendaftarkan suara klon ke Fish Audio…',
+    'toast.cloneOk': 'Klon suara selesai, ID suara telah terisi',
+    'toast.cloneFail': 'Klon suara gagal: ',
+    'settings.llm': 'Model Bahasa (LLM)', 'settings.tts': 'Sintesis Suara (TTS)',
+    'settings.persona': 'Karakter & Pemain', 'settings.app': 'Tampilan & Pemutaran',
+    'settings.data': 'Data', 'settings.baseUrl': 'Alamat API (Base URL)',
+    'settings.model': 'Nama Model',
+    'settings.model.hint': 'Klik "Tarik daftar model" di bawah untuk memilih dari menu, atau isi manual jika gagal.',
+    'settings.apiKey': 'API Key', 'settings.apiKey.hint': 'Hanya disimpan di localStorage lokal',
+    'settings.temp': 'Temperatur', 'settings.maxTokens': 'Batas Balasan (max_tokens)',
+    'settings.historyTurns': 'Jumlah Putaran Riwayat',
+    'settings.context': 'Panjang Konteks (token)',
+    'settings.context.hint': '0 atau kosong = perkiraan otomatis sesuai nama model.',
+    'settings.fetchModels': 'Tarik Daftar Model',
+    'settings.thinking': 'Mode Berpikir (Thinking)',
+    'settings.thinking.auto': 'Otomatis (Aktif jika terdeteksi)',
+    'settings.thinking.off': 'Nonaktif', 'settings.thinking.on': 'Aktif',
+    'settings.thinkingEffort': 'Tingkat Pemikiran',
+    'settings.thinkingEffort.default': 'Default', 'settings.thinkingEffort.off': 'Mati',
+    'settings.thinkingEffort.low': 'Rendah', 'settings.thinkingEffort.medium': 'Sedang',
+    'settings.thinkingEffort.high': 'Tinggi', 'settings.thinkingEffort.max': 'Maksimal',
+    'settings.thinkingStyle': 'Protokol Pemikiran',
+    'settings.thinkingStyle.auto': 'Otomatis', 'settings.thinkingStyle.none': 'Tidak dikirim',
+    'settings.thinkingStyle.openai': 'OpenAI reasoning_effort',
+    'settings.thinkingStyle.openrouter': 'OpenRouter reasoning',
+    'settings.thinkingStyle.qwen': 'Qwen enable_thinking',
+    'settings.thinkingStyle.glm': 'GLM thinking + reasoning_effort',
+    'settings.memory': 'Memori Jangka Panjang',
+    'settings.memoryOn': 'Aktifkan Ringkasan Sesi',
+    'settings.turnsPerSession': 'Jumlah Putaran per Sesi',
+    'settings.sessionCap': 'Batas Jumlah Sesi',
+    'settings.summaryCap': 'Batas Ringkasan Sesi',
+    'settings.ttsMode': 'Metode Suara',
+    'settings.ttsMode.clone': 'Klon Suara (Suara Asli Ryza)',
+    'settings.ttsMode.preset': 'Suara Bawaan', 'settings.ttsMode.off': 'Matikan Suara',
+    'settings.refAudio': 'Jalur Audio Referensi Klon', 'settings.presetVoice': 'Nama Suara Bawaan',
+    'settings.styleHint': 'Petunjuk Karakter Suara',
+    'settings.styleHint.hint': 'Hanya menentukan karakter suara pembicara; kecepatan/bisikan diatur otomatis oleh mode percakapan.',
+    'settings.test': 'Uji', 'settings.testLlm': 'Uji Obrolan', 'settings.testTts': 'Uji Suara',
+    'settings.export': 'Ekspor Konfigurasi', 'settings.import': 'Impor Konfigurasi',
+    'settings.reset': 'Reset ke Default',
+    'settings.lang': 'Bahasa Tampilan', 'settings.volume': 'Volume',
+    'settings.textSpeed': 'Kecepatan Teks (md/huruf)', 'settings.voice': 'Suara',
+    'settings.vibration': 'Getaran', 'settings.bubble': 'Tampilkan Balon Obrolan',
+    'settings.rim': 'Efek Cahaya Siluet', 'settings.nsfw': 'Izinkan NSFW',
+    'settings.time': 'Waktu', 'settings.timeMode': 'Mode Waktu', 'settings.flowSpeed': 'Kecepatan Alur Game',
+    'settings.baseUrlHint': 'Alamat kompatibel OpenAI berakhiran /v1; atau gunakan config/providers.json',
+    'settings.cloneModelHint': 'ID model untuk klon suara (disediakan server, mis. model klon suara MiMo)',
+    'settings.refAudioHint': 'Harus berupa wav atau mp3; audio asli APK adalah m4a, perlu dikonversi dulu',
+    'settings.presetModelHint': 'ID model untuk suara bawaan (disediakan server)',
+    'settings.importPrompt': 'Tempel JSON konfigurasi',
+    'settings.cheat': 'Keseimbangan Game', 'settings.speed': 'Kecepatan Teks',
+    'settings.erase': 'Hapus Semua Data Lokal',
+    'settings.eraseMsg': 'Semua riwayat percakapan, progres misi, dan pengaturan akan dihapus secara permanen.',
+    'settings.eraseOk': 'Hapus Semua',
+    'settings.lang.ui': 'Bahasa Tampilan', 'settings.lang.voice': 'Bahasa Suara Rekaman',
+    'settings.lang.llm': 'Bahasa Balasan Ryza', 'settings.lang.tts': 'Bahasa Baca Suara',
+    'settings.lang.ttsHint': 'Jika bahasa suara berbeda dari bahasa balasan, teks akan diterjemahkan terlebih dahulu sebelum dibaca.',
+    'settings.tts.provider': 'Layanan TTS',
+    'settings.tts.provider.openai': 'Kompatibel OpenAI (MiMo dll.)',
+    'settings.tts.provider.openaiSpeech': 'Speech Kompatibel OpenAI (/audio/speech, Kokoro / Sherpa)',
+    'settings.tts.provider.edge': 'Edge TTS (Gratis, dijalankan di server)',
+    'settings.edgeVoice': 'Pilihan Suara Edge',
+    'settings.edgeVoice.hint': 'Contoh: id-ID-GadisNeural, id-ID-ArdiNeural, ja-JP-NanamiNeural, en-US-JennyNeural',
+    'settings.tts.provider.qwen': 'Qwen / DashScope', 'settings.tts.provider.fish': 'Fish Audio',
+    'settings.qwenModel': 'Model Qwen TTS', 'settings.qwenVoice': 'Suara Qwen',
+    'settings.qwenBaseHint': 'Kosong = DashScope resmi. Bisa juga menggunakan gateway protokol yang kompatibel.',
+    'settings.qwenModel.hint': 'Isi ID model apa saja.',
+    'settings.qwenVoice.hint': 'Contoh Cherry/Serena untuk Qwen3.',
+    'settings.qwenCloneTarget': 'Target Model Klon',
+    'settings.qwenCloneTarget.hint': 'Harus sesuai keluarga model, mis. qwen3-tts-vc-2026-01-22.',
+    'settings.cloneQwen': 'Klon Suara Ryza (Qwen)',
+    'settings.fishBaseHint': 'Kosong = Open API resmi (https://fishaudio.org/api/open/v1).',
+    'settings.fishModel': 'Model Mesin Fish',
+    'settings.fishModel.hint': 'Default fishaudio-s21pro-flash.',
+    'settings.fishVoice': 'ID Suara Fish',
+    'settings.fishVoice.hint': 'Kosongkan untuk klon otomatis dari audio lokal prolog Ryza.',
+    'settings.fetchVoices': 'Tarik Daftar Suara',
+    'settings.cloneFish': 'Klon Suara Ryza (Fish)',
+    'time.real': 'Mengikuti jam nyata', 'time.flow': 'Waktu game berjalan', 'time.manual': 'Ubah manual saja',
+    'speed.slow': 'Lambat (1 menit = 15 mnt game)', 'speed.mid': 'Standar (1 menit = 1 jam game)',
+    'speed.fast': 'Cepat (1 menit = 3 jam game)', 'speed.vfast': 'Sangat cepat (1 menit = 6 jam game)',
+    'tod.mor': 'Pagi', 'tod.aft': 'Siang', 'tod.eve': 'Sore', 'tod.ngt': 'Malam',
+    'vol.bgm': 'BGM', 'vol.ambient': 'Suara Lingkungan', 'vol.voice': 'Suara', 'vol.se': 'Efek Suara',
+    'chara.ryza': 'Ryza', 'chara.you': 'Kamu',
+    'chara.titleRyza': 'Ryza (Profil Karakter)', 'chara.titleYou': 'Kamu (Profil Pemain)',
+    'chara.saveAndTalk': 'Simpan dan Kembali ke Obrolan', 'chara.clearHistory': 'Hapus Memori Obrolan',
+    'chara.personality': 'Kepribadian', 'chara.likes': 'Hal yang disukai',
+    'chara.dislikes': 'Hal yang tidak disukai', 'chara.situation': 'Situasi saat ini',
+    'chara.callMe': 'Panggilan Ryza untukmu', 'chara.extra': 'Pengaturan tambahan',
+    'profile.appearance': 'Penampilan', 'profile.background': 'Latar belakang',
+    'profile.hobby': 'Hobi', 'profile.interest': 'Minat',
+    'profile.futureGoals': 'Tujuan ke depan', 'profile.personality': 'Kepribadianmu',
+    'alarm.type.goodMorning': 'Selamat Pagi', 'alarm.type.playWithMe': 'Ajak Main',
+    'alarm.type.task': 'Pengingat Tugas', 'alarm.type.wellDone': 'Kerja Bagus',
+    'alarm.style.normal': 'Biasa', 'alarm.style.whisper': 'Bisikan',
+    'alarm.empty': 'Belum ada alarm. Klik tombol di kanan atas untuk menambah.',
+    'alarm.new': 'Alarm Baru', 'alarm.edit': 'Edit Alarm', 'alarm.time': 'Waktu',
+    'alarm.kind': 'Tipe', 'alarm.tone': 'Nada', 'alarm.days': 'Ulangi',
+    'alarm.everyday': 'Setiap hari', 'alarm.daysHint': 'kosongkan untuk setiap hari',
+    'alarm.newBtn': '+ Alarm Baru', 'alarm.snooze': 'Tunda', 'alarm.dismiss': 'Tutup',
+    'alarm.vibrate': 'Getaran', 'alarm.volume': 'Volume', 'alarm.min': 'menit',
+    'dl.subtitle': 'Kembalilah setiap hari untuk menyapa Ryza; ada hadiah login beruntun.',
+    'dl.progress': 'Beruntun {n} hari', 'dl.next': 'Berikutnya: {r}',
+    'dl.cta': 'Klaim Hadiah Hari Ini', 'dl.done': 'Sudah Diklaim Hari Ini',
+    'dl.already': 'Kamu sudah mengambil hadiah hari ini', 'dl.got': 'Mendapatkan: ',
+    'dl.week.mon': 'Sen', 'dl.week.tue': 'Sel', 'dl.week.wed': 'Rab',
+    'dl.week.thu': 'Kam', 'dl.week.fri': 'Jum', 'dl.week.sat': 'Sab', 'dl.week.sun': 'Min',
+    'quest.no': 'Utama', 'quest.side': 'Sampingan', 'quest.goal': 'Target',
+    'quest.cost': 'Stamina', 'quest.history': 'Selesai', 'quest.newOk': 'Misi baru: ',
+    'quest.cleared': 'Misi Selesai!', 'quest.ship': 'Progres Pembuatan Kapal',
+    'quest.auto': 'Biarkan Ryza memikirkan satu',
+    'quest.act.gather': 'Pergi mengumpulkan', 'quest.act.craft': 'Mulai meracik',
+    'quest.act.battle': 'Mulai pertarungan', 'quest.act.shop': 'Buka toko sehari',
+    'quest.act.build': 'Pasang bagian kapal', 'quest.act.sail': 'Berlayar!',
+    'stamina': 'Stamina', 'st.level': 'Level', 'st.exp': 'EXP',
+    'st.met': 'Orang yang ditemui', 'st.memory': 'Catatan petualangan',
+    'inv.you': 'Tas Milikmu', 'inv.ryza': 'Tas Milik Ryza',
+    'inv.empty': 'Tas masih kosong.', 'inv.cap': 'Kapasitas {u}/{c}',
+    'inv.upgrade': 'Tingkatkan ({p}G)', 'inv.upgraded': 'Kapasitas tas ditingkatkan!',
+    'inv.tooSmall': 'Uang tidak cukup — buka toko terlebih dahulu.',
+    'stamina.faintTitle': 'Stamina habis…',
+    'stamina.faintMsg': 'Ryza akan pingsan jika kehabisan stamina. Istirahat tidur di tempat yang aman untuk memulihkannya.',
+    'stamina.sleep': 'Pulang dan tidur', 'stamina.slept': 'Tidur nyenyak — stamina pulih sepenuhnya!',
+    'cheat.desc': 'Stamina dan uang tanpa batas. Nonaktifkan untuk kembali normal.',
+    'cheat.on': 'Mode Cheat AKTIF', 'cheat.off': 'Mode Cheat NONAKTIF — batasan kembali normal',
+    'cheat.refill': 'Cheat: Isi Penuh',
+    'memory.sessions': 'Sesi', 'memory.summaries': 'Ringkasan Sesi',
+    'memory.add': 'Tambah', 'memory.flush': 'Ringkas Sekarang',
+    'memory.clearLog': 'Hapus Dialog',
+    'memory.clearLogAsk': 'Hanya menghapus riwayat dialog terbaru. Kartu memori jangka panjang akan tetap ada. Yakin?',
+    'memory.edit': 'Edit', 'memory.del': 'Hapus', 'memory.delAsk': 'Hapus catatan memori ini?',
+    'memory.log': 'Dialog Terbaru', 'memory.pending': 'Belum diringkas ({n} putaran)',
+    'memory.empty': 'Belum ada kenangan yang tersimpan.',
+    'onb.skip': 'Lewati', 'onb.next': 'Selanjutnya', 'onb.finish': 'Selesai',
+    'onb.name': 'Namamu', 'onb.birthday': 'Ulang Tahun', 'onb.gender': 'Gender',
+    'onb.gender.female': 'Perempuan', 'onb.gender.male': 'Laki-laki', 'onb.gender.other': 'Lainnya',
+    'onb.identity.prompt': 'Pertama, tentang dirimu',
+    'onb.identity.sub': 'Nama, ulang tahun, dan gender mempengaruhi cara Ryza memanggilmu.',
+    'onb.q01.prompt': 'Bagaimana penampilanmu?',
+    'onb.q01.sub': 'Agar Ryza bisa membayangkanmu.', 'onb.q01.ph': 'mis. rambut hitam, mantel…',
+    'onb.q02.prompt': 'Jalan apa yang telah kamu lalui sejauh ini?',
+    'onb.q02.sub': 'Latar belakang atau asal-usulmu.',
+    'onb.q03.prompt': 'Apa yang suka kamu lakukan?', 'onb.q03.sub': 'Hobi dan kesukaan.',
+    'onb.q04.prompt': 'Apa yang paling ingin kamu lakukan bersama Ryza?',
+    'onb.q04.sub': 'Pilih sebanyak yang kamu inginkan.',
+    'onb.q04.c1': 'Petualangan dan berburu harta karun', 'onb.q04.c2': 'Membuka toko bersama',
+    'onb.q04.c3': 'Meracik item (alkimia)', 'onb.q04.c4': 'Mengobrol santai', 'onb.q04.c5': 'Mendengarkan ceritanya',
+    'onb.q05.prompt': 'Apa yang membuatmu tertarik dengan alkimia?',
+    'onb.q05.sub': 'Pilih sebanyak yang kamu sukai.',
+    'onb.q05.c1': 'Mengumpulkan bahan', 'onb.q05.c2': 'Resep racikan', 'onb.q05.c3': 'Eksperimen bebas',
+    'onb.q05.c4': 'Memperkuat perlengkapan', 'onb.q05.c5': 'Item pemulihan', 'onb.q05.c6': 'Masih pemula dan ingin belajar',
+    'onb.q06.prompt': 'Dari mana cerita kita harus dimulai?',
+    'onb.q06.sub': 'Pilih salah satu awal cerita.',
+    'onb.q06.c1': 'Kehidupan sehari-hari di Pulau Kurken', 'onb.q06.c2': 'Kita sudah saling mengenal sejak lama',
+    'onb.q07.prompt': 'Apa yang ingin kamu capai ke depannya?',
+    'onb.q07.sub': 'Ini juga akan diketahui oleh Ryza.',
+    'onb.q08.prompt': 'Bagaimana kamu menggambarkan dirimu?',
+    'onb.q08.sub': 'Kepribadian dan cara bergaul.',
+    'onb.prologueHint': 'Ketuk layar untuk melanjutkan prolog',
+    'wm.sub': 'Selesaikan beberapa hal pertama bersama Ryza.',
+    'wm.talk.title': 'Sapa sekali', 'wm.talk.desc': 'Ajak Ryza mengobrol sekali.',
+    'wm.map.title': 'Buka peta', 'wm.map.desc': 'Pilih area di peta dunia.',
+    'wm.alarm.title': 'Pasang alarm', 'wm.alarm.desc': 'Bangun dengan suara Ryza.',
+    'wm.skin.title': 'Lihat kostum', 'wm.skin.desc': 'Dua kostum memiliki model yang bisa dikenakan.',
+    'wm.quest.title': 'Satu misi', 'wm.quest.desc': 'Selesaikan satu misi di papan misi.',
+    'win.pin': 'Sematkan jendela', 'win.min': 'Minimalkan', 'win.close': 'Tutup',
+    'posture.sit': 'Duduk', 'posture.stand': 'Berdiri'
   });
 
   T['pt-br'] = inherit(T.en, {
@@ -799,12 +1118,10 @@
     'mode.asmr': 'ASMR', 'mode.text': 'Texto', 'style.voice': '🔊 Voz', 'style.text': '📝 Texto'
   });
 
-  /* =====================================================================
-     Content dictionary — the in-game data layer (items, quests, action
+  /* Content dictionary: the in-game data layer (items, quests, action
      lines, NPC/place names). ja entries are the shipped/original wording;
      zh / en are rebuild translations (official Atelier Ryza names where
-     they exist). zh-tw inherits zh, hi/id/pt-br inherit en.
-     ================================================================== */
+     they exist). zh-tw inherits zh, hi/id/pt-br inherit en. */
   var CONTENT = {
     ja: {
       'item.emeralia': 'エメラリア草', 'item.uni': 'うに', 'item.wasser': '蒸留水',
@@ -812,6 +1129,7 @@
       'item.mushroom': '元気茸', 'item.driftwood': '漂流WOOD', 'item.ironwood': '堅鉄の木目',
       'item.cloth': '帆布布切れ', 'item.bottle': '回復のボトル', 'item.bomb': '爆弾瓶',
       'item.charm': 'お守りの指輪', 'item.relic': '古代の遺物', 'item.apple': 'スタミナリンゴ',
+      'item.flam': 'フラム', 'item.herb_tea': 'ハーブティー', 'item.elixir': 'エリクシル剤', 'item.philosopher': '賢者の石',
       'q.1.title': 'まずは会話をしてみよう', 'q.1.desc': 'ライザと会話して、お互いのことにもっと慣れる。', 'q.1.goal': 'ライザと4回話す',
       'q.2.title': '島のあちこちを冒険', 'q.2.desc': 'ワールドマップを開いて、別の場所へ移動する。', 'q.2.goal': '別のステージへ2回移動',
       'q.3.title': '素材集めの冒険', 'q.3.desc': '冒険の材料集め。バッグに素材を詰めてこよう。', 'q.3.goal': '素材を3つ集める',
@@ -885,6 +1203,7 @@
       'item.mushroom': '元气菇', 'item.driftwood': '漂流木', 'item.ironwood': '坚铁木',
       'item.cloth': '帆布碎片', 'item.bottle': '回复瓶', 'item.bomb': '爆弹瓶',
       'item.charm': '守护指轮', 'item.relic': '古代遗物', 'item.apple': '体力苹果',
+      'item.flam': '炎烧（火药瓶）', 'item.herb_tea': '香草茶', 'item.elixir': '万灵药剂', 'item.philosopher': '贤者之石',
       'q.1.title': '先来聊聊天吧', 'q.1.desc': '和莱莎对话，更熟悉彼此一点。', 'q.1.goal': '和莱莎聊4次',
       'q.2.title': '在岛各处冒险', 'q.2.desc': '打开世界地图，移动到别的地方。', 'q.2.goal': '移动到别的舞台2次',
       'q.3.title': '采集素材的冒险', 'q.3.desc': '冒险要用的材料采集。把背包装满吧。', 'q.3.goal': '采集3个素材',
@@ -958,6 +1277,7 @@
       'item.mushroom': 'Vitality Mushroom', 'item.driftwood': 'Driftwood Log', 'item.ironwood': 'Ironwood Grain',
       'item.cloth': 'Sailcloth Scrap', 'item.bottle': 'Healing Bottle', 'item.bomb': 'Bomb Vial',
       'item.charm': 'Guardian Charm Ring', 'item.relic': 'Ancient Relic', 'item.apple': 'Stamina Apple',
+      'item.flam': 'Flame Sun (Bomb)', 'item.herb_tea': 'Herb Tea', 'item.elixir': 'Elixir', 'item.philosopher': "Philosopher's Stone",
       'q.1.title': 'Let\u2019s Talk First', 'q.1.desc': 'Chat with Ryza and get used to each other.', 'q.1.goal': 'Talk to Ryza 4 times',
       'q.2.title': 'Explore the Island', 'q.2.desc': 'Open the world map and travel somewhere else.', 'q.2.goal': 'Move to another stage twice',
       'q.3.title': 'Gathering Adventure', 'q.3.desc': 'Collect adventuring materials. Fill that bag!', 'q.3.goal': 'Gather 3 materials',
@@ -1065,11 +1385,18 @@
   /* Merge content into the UI dictionaries (UI keys win on collision —
      they never actually collide; content keys are namespaced). */
   function mergeContent(lang) {
-    var base = CONTENT[lang] || CONTENT.en;
     if (!T[lang]) return;
-    Object.keys(base).forEach(function (k) {
-      if (base[k] && k !== 'npc') T[lang][k] = base[k];
-    });
+    if (lang !== 'ja' && lang !== 'zh' && lang !== 'zh-tw') {
+      Object.keys(CONTENT.en || {}).forEach(function (k) {
+        if (CONTENT.en[k] && k !== 'npc') T[lang][k] = CONTENT.en[k];
+      });
+    }
+    var base = CONTENT[lang];
+    if (base) {
+      Object.keys(base).forEach(function (k) {
+        if (base[k] && k !== 'npc') T[lang][k] = base[k];
+      });
+    }
   }
   mergeContent('ja'); mergeContent('zh'); mergeContent('en');
   T['zh-tw'] = T['zh-tw'] || {};
@@ -1107,11 +1434,9 @@
     Object.keys(EN_VERBATIM).forEach(function (k) { if (T[lg]) T[lg][k] = EN_VERBATIM[k]; });
   });
 
-  /* =====================================================================
-     Language matrix — UI / shipped-voice / LLM-output / TTS are four
+  /* Language matrix: UI / shipped-voice / LLM-output / TTS are four
      independent choices (user requirement). 'auto' falls through:
-     voice.lang→UI, llm.lang→UI, tts.lang→resolved llm.lang.
-     ================================================================== */
+     voice.lang→UI, llm.lang→UI, tts.lang→resolved llm.lang. */
   var LANG_NAMES = {            /* how to address each language in a prompt */
     zh: '简体中文', 'zh-tw': '繁體中文', ja: '日本語', en: 'English',
     hi: 'हिन्दी', id: 'Bahasa Indonesia', 'pt-br': 'Português (Brasil)'
@@ -1121,17 +1446,31 @@
     hi: 'Auto', id: 'Auto', 'pt-br': 'Auto'
   };
   var Langs = {
-    ui: function () { return (Config.section('app') || {}).lang || 'zh'; },
+    detect: function () {
+      var nav = (typeof navigator !== 'undefined') ? (navigator.language || navigator.userLanguage || '') : '';
+      nav = nav.toLowerCase();
+      if (nav.startsWith('zh-tw') || nav.startsWith('zh-hk') || nav.startsWith('zh-mo') || nav.startsWith('zh-hant')) return 'zh-tw';
+      if (nav.startsWith('zh')) return 'zh';
+      if (nav.startsWith('ja')) return 'ja';
+      if (nav.startsWith('id')) return 'id';
+      if (nav.startsWith('hi')) return 'hi';
+      if (nav.startsWith('pt')) return 'pt-br';
+      return 'en';
+    },
+    ui: function () {
+      var lg = (global.Config && Config.section ? (Config.section('app') || {}).lang : '') || 'auto';
+      return lg === 'auto' ? Langs.detect() : lg;
+    },
     voice: function () {
-      var v = (Config.section('voice') || {}).lang || 'auto';
+      var v = (global.Config && Config.section ? (Config.section('voice') || {}).lang : '') || 'auto';
       return v === 'auto' ? Langs.ui() : v;
     },
     llm: function () {
-      var v = (Config.section('llm') || {}).lang || 'auto';
+      var v = (global.Config && Config.section ? (Config.section('llm') || {}).lang : '') || 'auto';
       return v === 'auto' ? Langs.ui() : v;
     },
     tts: function () {
-      var v = (Config.section('tts') || {}).lang || 'auto';
+      var v = (global.Config && Config.section ? (Config.section('tts') || {}).lang : '') || 'auto';
       return v === 'auto' ? Langs.llm() : v;
     },
     name: function (lg) { return LANG_NAMES[lg] || lg; },
@@ -1157,7 +1496,11 @@
       { id: 'id', label: 'Indonesia' },
       { id: 'pt-br', label: 'Português (Brasil)' }
     ],
-    setLang: function (l) { if (T[l]) I18n.lang = l; },
+    setLang: function (l) {
+      if (l === 'auto') l = Langs.detect();
+      if (T[l]) I18n.lang = l;
+      else I18n.lang = 'en';
+    },
     t: function (key) {
       var d = T[I18n.lang] || T.zh;
       return (key in d) ? d[key] : (T.en[key] || key);

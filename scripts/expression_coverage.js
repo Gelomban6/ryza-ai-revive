@@ -78,7 +78,7 @@ for (const id of SKINS) {
     else missing.push(where + ' → ' + n);
   };
 
-  /* --- faces ------------------------------------------------------------- */
+  /* Faces */
   let liveSets = 0, deadSets = 0, unresolvable = 0;
   const bandCounts = {};
   for (const em of Object.keys(ep)) {
@@ -133,7 +133,7 @@ for (const id of SKINS) {
     });
   });
 
-  /* --- reports ----------------------------------------------------------- */
+  /* Reports */
   const atts = new Set();
   Object.keys(ep).forEach(e => Object.keys(ep[e].fixedGestureBindingsByAttitude || {})
     .forEach(a => atts.add(a)));

@@ -193,7 +193,7 @@
        Drives gaze bindings, torso weights and blink cadence. */
     _tension: 0,
 
-    /* ------------------------------------------------------------- setup */
+    /* Setup */
     init: function (onReady) {
       Avatar.host = makeHost('scene-canvas');
       if (!Avatar.host) {
@@ -256,7 +256,6 @@
       return String(id || 'crf_skn_002_0001').replace(/_(01|99)$/, '');
     },
 
-    /* --------------------------------------------------- posture (source) */
     /* Which skeleton to show.
        The gesture files are the authority on what each skin IS:
          crf_skn_002_0001_01 → name 座りライザ（普通座り）, projectConfig
@@ -477,7 +476,6 @@
       });
     },
 
-    /* ------------------------------------------------------------- camera */
     /* One orthographic window (Avatar._view) maps world units to the canvas
        and is shared by the scene plate and the character.
 
@@ -861,7 +859,7 @@
       return null;
     },
 
-    /* ------------------------------------------------------- asset loading */
+    /* Asset loading */
     _loadSpine: function (L, skelUrl, atlasUrl, done) {
       var a = L.assets;
       if (L === Avatar.avatar) {
@@ -1025,7 +1023,7 @@
       }
     },
 
-    /* --------------------------------------------------------- expression */
+    /* Expression */
     _profile: function (emotion) {
       var g = Avatar.gesture;
       var map = g && g.emotionalGesture && g.emotionalGesture.EmotionProfilesV4;
@@ -2520,7 +2518,7 @@
       return (Number(tr.mixTime) || 0) / dur >= 0.6;
     },
 
-    /* --------------------------------------------------------------- loop */
+    /* Render loop */
     _loop: function (now) {
       requestAnimationFrame(Avatar._loop);
       var dt = Avatar._last ? Math.min((now - Avatar._last) / 1000, 0.05) : 0;

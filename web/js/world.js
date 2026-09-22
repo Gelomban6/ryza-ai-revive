@@ -97,8 +97,7 @@
       return TODS[(TODS.indexOf(tod) + 1) % TODS.length];
     },
 
-    /* ---------------------------------------------------------- time-of-day
-       Bands match the alarm voice table (alarm.js todForHour) so the scene,
+    /* Time-of-day bands match the alarm voice table (alarm.js todForHour) so the scene,
        the greeting voice and the light all agree on when 朝/昼/夕/夜 start. */
     hourToTod: function (h) {
       h = ((Number(h) % 24) + 24) % 24;
@@ -135,7 +134,7 @@
       return ((h % 24) + 24) % 24;
     },
 
-    /* ------------------------------------------------------------- RNG */
+    /* RNG hash helper */
     _hash: function (str) {
       var h = 2166136261, i;
       for (i = 0; i < str.length; i++) {
@@ -401,7 +400,6 @@
       return L.join('\n');
     },
 
-    /* --------------------------------------------------------- pin map */
     /* Source flow: the world beyond クーケン島 (area_01) opens when the
        ship quest finishes (`sailed` in game.js — entry_map_move.dart). */
     locked: function (areaId) {

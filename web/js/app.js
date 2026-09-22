@@ -28,7 +28,7 @@
     _lastText: '',
     _invBag: 'you',
 
-    /* ------------------------------------------------------------- utils */
+    /* Utilities */
     toast: function (msg, isErr) {
       var host = document.getElementById('toast-host');
       var el = document.createElement('div');
@@ -111,7 +111,7 @@
       }
     },
 
-    /* -------------------------------------------------------------- boot */
+    /* Boot sequence */
     init: function () {
       I18n.setLang(Config.section('app').lang || 'zh');
       I18n.apply(document);
@@ -179,7 +179,7 @@
           } else App.enterGame(false);
         });
       }).catch(function (e) {
-        App.toast('素材索引加载失败：' + e.message, true);
+        App.toast(I18n.t('toast.assetIndexFail') + e.message, true);
       });
     },
 
@@ -260,7 +260,7 @@
       setTimeout(function () { if (el.remove) el.remove(); }, 720);
     },
 
-    /* ------------------------------------------------------------ chrome */
+    /* Chrome controls */
     _bindChrome: function () {
       var drawer = document.getElementById('drawer');
       var scrim = document.getElementById('scrim');
@@ -416,6 +416,36 @@
         App.renderInv();
         document.getElementById('sheet-inv').classList.toggle('hidden');
       };
+      var qaGreet = document.getElementById('qa-greet');
+      if (qaGreet) {
+        qaGreet.onclick = function () {
+          var inp = document.getElementById('input');
+          if (inp) {
+            inp.value = I18n.t('qa.greetMsg');
+            App.send();
+          }
+        };
+      }
+      var qaSleep = document.getElementById('qa-sleep');
+      if (qaSleep) {
+        qaSleep.onclick = function () {
+          App._sleepHome();
+        };
+      }
+      var qaStatus = document.getElementById('qa-status');
+      if (qaStatus) {
+        qaStatus.onclick = function () {
+          App.renderStatus();
+          document.getElementById('sheet-status').classList.remove('hidden');
+        };
+      }
+      var qaBag = document.getElementById('qa-bag');
+      if (qaBag) {
+        qaBag.onclick = function () {
+          App.renderInv();
+          document.getElementById('sheet-inv').classList.toggle('hidden');
+        };
+      }
       document.querySelectorAll('#inv-tabs [data-bag]').forEach(function (b) {
         b.onclick = function () {
           App._invBag = b.getAttribute('data-bag');
@@ -464,7 +494,7 @@
         });
       };
       document.getElementById('btn-settings-reset').onclick = function () {
-        if (confirm('恢复所有设置为默认值？')) {
+        if (confirm(I18n.t('toast.confirmReset'))) {
           Config.reset();
           if (window.Nsfw) Nsfw.restore();
           App.buildSettings(); App.buildCharaForm();
@@ -779,7 +809,7 @@
       sheet.classList.remove('hidden');
     },
 
-    /* -------------------------------------------------------------- talk */
+    /* Talk view */
     _bindTalk: function () {
       var input = document.getElementById('input');
       var send = document.getElementById('btn-send');
@@ -892,7 +922,7 @@
       App.renderWorld();
     },
 
-    /* ------------------------------------------------------- status sheet */
+    /* Status sheet */
     renderStatus: function () {
       var root = document.getElementById('status-body');
       if (!root) return;
@@ -950,7 +980,7 @@
       });
     },
 
-    /* ------------------------------------------------------ inventory sheet */
+    /* Inventory sheet */
     renderInv: function () {
       var which = App._invBag;
       var root = document.getElementById('inv-list');
@@ -1046,8 +1076,8 @@
       return L.join('\n');
     },
 
-    /* re-paint every localized surface after a language change */
     _relocalize: function () {
+      I18n.apply(document);
       App.buildSettings();
       App.buildCharaForm();
       App.updateHud();
@@ -1066,6 +1096,12 @@
         var al = document.getElementById('alarm-list');
         if (al) Alarm.render(al, App.playFile);
       }
+      var wp = document.getElementById('win-pin');
+      if (wp) wp.title = I18n.t('win.pin');
+      var wm = document.getElementById('win-min');
+      if (wm) wm.title = I18n.t('win.min');
+      var wc = document.getElementById('win-close');
+      if (wc) wc.title = I18n.t('win.close');
       if (App._syncVoicePill) App._syncVoicePill();
       App._syncSpeedBtn();
     },
@@ -1299,7 +1335,7 @@
       App.buzz();
     },
 
-    /* ------------------------------------------------- log panel lifecycle
+    /* Log panel lifecycle
        2026-09-07 UI pass: the floating auto-fading bubble is gone. The
        official talk screen keeps a bottom log panel — avatar + name + mode
        description, the current line, page dots for the last few replies, and
@@ -1444,7 +1480,7 @@
       if (b) b.scrollTop = b.scrollHeight;
     },
 
-    /* ------------------------------------------------------------ alarms */
+    /* Alarms */
     _onAlarm: function (a, clip) {
       App._ringAlarm = a;
       var ov = document.getElementById('overlay-alarm');
@@ -1472,7 +1508,7 @@
       App.toast(I18n.t('alarm.snooze'));
     },
 
-    /* -------------------------------------------------------- modal forms */
+    /* Modal forms */
     closeModal: function () {
       document.getElementById('modal-scrim').classList.add('hidden');
     },
@@ -1579,8 +1615,7 @@
           days.appendChild(chips);
           var hint = document.createElement('div');
           hint.className = 'hint';
-          hint.textContent = I18n.t('alarm.everyday') + ' — ' +
-            (I18n.lang === 'en' ? 'leave all off' : (I18n.lang === 'ja' ? '未選択で毎日' : '全不选即每天'));
+          hint.textContent = I18n.t('alarm.everyday') + ' — ' + I18n.t('alarm.daysHint');
           days.appendChild(hint);
           body.appendChild(days);
 
@@ -1597,7 +1632,7 @@
         },
         onOk: function (body) {
           var time = (body.querySelector('#f-alarm-time').value || '').slice(0, 5);
-          if (!/^\d{2}:\d{2}$/.test(time)) { App.toast('请填写时间', true); return false; }
+          if (!/^\d{2}:\d{2}$/.test(time)) { App.toast(I18n.t('toast.needTime'), true); return false; }
           var type = body.querySelector('#f-alarm-type').value;
           var style = body.querySelector('#f-alarm-style').value;
           var days = [];
@@ -1618,7 +1653,7 @@
       });
     },
 
-    /* ------------------------------------------------------------ memory */
+    /* Memory */
     remember: function (who, text) {
       App.memory.push({ who: who, text: text, at: Date.now() });
       if (App.memory.length > 400) App.memory = App.memory.slice(-400);
@@ -1680,7 +1715,7 @@
           el.innerHTML = '<div class="card-title"><span class="tag' +
             (m.who === 'ryza' ? '' : ' leaf') + ' t-who"></span></div>' +
             '<div class="card-sub t-text"></div>';
-          el.querySelector('.t-who').textContent = m.who === 'ryza' ? 'ライザ' : '你';
+          el.querySelector('.t-who').textContent = m.who === 'ryza' ? I18n.tc('chara.ryza', 'ライザ') : I18n.tc('chara.you', '你');
           el.querySelector('.t-text').textContent = m.text;
           root.appendChild(el);
         });
@@ -1741,7 +1776,7 @@
 
     _fetchModels: function () {
       var llm = Config.section('llm');
-      if (!llm.apiKey) { App.toast(I18n.t('toast.needKey'), true); return; }
+      if (!llm.apiKey && !Api.isLocalEndpoint(llm.baseUrl)) { App.toast(I18n.t('toast.needKey'), true); return; }
       if (!llm.baseUrl) { App.toast(I18n.t('toast.needUrl'), true); return; }
       App.toast(I18n.t('toast.modelsWait'));
       Api.listModels().then(function (list) {
@@ -1811,7 +1846,7 @@
       });
     },
 
-    /* ------------------------------------------------------------- skins */
+    /* Skins */
     renderSkins: function () {
       fetch('assets/_index/skins.json').then(function (r) { return r.json(); })
         .then(function (skins) {
@@ -1837,7 +1872,10 @@
                            '<span class="skin-id"></span></div>';
             var img = el.querySelector('img');
             img.src = s.preview || 'assets/images/chara_placeholder.png';
-            img.onerror = function () { img.src = 'assets/images/chara_placeholder.png'; };
+            img.onerror = function () {
+              this.onerror = null;
+              this.src = 'assets/images/chara_placeholder.png';
+            };
             el.querySelector('.t-name').textContent = wearable
               ? I18n.t('skin.wear') : I18n.t('skin.previewOnly');
             el.querySelector('.skin-id').textContent = s.id.replace('crf_skn_002_', '');
@@ -1866,7 +1904,7 @@
       }, 160);
     },
 
-    /* -------------------------------------------------------------- forms */
+    /* Forms */
     _field: function (wrap, labelKey, value, onInput, opts) {
       opts = opts || {};
       var d = document.createElement('div');
@@ -1965,7 +2003,7 @@
       App._title(w, T('settings.llm'));
       App._field(w, T('settings.baseUrl'), Config.section('llm').baseUrl,
         function (v) { Config.set('llm.baseUrl', v); },
-        { hint: 'OpenAI 兼容地址，以 /v1 结尾；也可放 config/providers.json 自动水合' });
+        { hint: T('settings.baseUrlHint') });
       var models = App._llmModels || [];
       if (models.length) {
         var cur = Config.section('llm').model || '';
@@ -2049,11 +2087,13 @@
       App._title(w, T('settings.tts'));
       App._select(w, T('settings.tts.provider'), Config.section('tts').provider || 'openai', [
         { v: 'openai', t: T('settings.tts.provider.openai') },
+        { v: 'openai-speech', t: T('settings.tts.provider.openaiSpeech') },
+        { v: 'edge', t: T('settings.tts.provider.edge') },
         { v: 'qwen', t: T('settings.tts.provider.qwen') },
         { v: 'fish', t: T('settings.tts.provider.fish') }
       ], function (v) {
         Config.set('tts.provider', v);
-        if (v === 'fish' && Config.section('tts').mode === 'clone') {
+        if ((v === 'fish' || v === 'openai-speech' || v === 'edge') && Config.section('tts').mode === 'clone') {
           Config.set('tts.mode', 'preset');
         }
         App.buildSettings();
@@ -2150,6 +2190,29 @@
           { v: 'preset', t: T('settings.ttsMode.preset') },
           { v: 'off', t: T('settings.ttsMode.off') }
         ], function (v) { Config.set('tts.mode', v); App.buildSettings(); });
+      } else if (Config.section('tts').provider === 'edge') {
+        App._field(w, T('settings.edgeVoice'), Config.section('tts').edgeVoice || 'ja-JP-NanamiNeural',
+          function (v) { Config.set('tts.edgeVoice', v); },
+          { hint: T('settings.edgeVoice.hint') });
+        App._select(w, T('settings.ttsMode'), Config.section('tts').mode === 'off' ? 'off' : 'preset', [
+          { v: 'preset', t: T('settings.ttsMode.preset') },
+          { v: 'off', t: T('settings.ttsMode.off') }
+        ], function (v) { Config.set('tts.mode', v); App.buildSettings(); });
+      } else if (Config.section('tts').provider === 'openai-speech') {
+        App._field(w, T('settings.baseUrl'), Config.section('tts').baseUrl || 'http://localhost:8880/v1',
+          function (v) { Config.set('tts.baseUrl', v); },
+          { hint: 'Kokoro / Sherpa-ONNX / OpenAI /audio/speech' });
+        App._field(w, T('settings.apiKey'), Config.section('tts').apiKey,
+          function (v) { Config.set('tts.apiKey', v); },
+          { password: true });
+        App._field(w, T('settings.model'), Config.section('tts').modelPreset || 'tts-1',
+          function (v) { Config.set('tts.modelPreset', v); });
+        App._field(w, T('settings.presetVoice'), Config.section('tts').presetVoice || 'alloy',
+          function (v) { Config.set('tts.presetVoice', v); });
+        App._select(w, T('settings.ttsMode'), Config.section('tts').mode === 'off' ? 'off' : 'preset', [
+          { v: 'preset', t: T('settings.ttsMode.preset') },
+          { v: 'off', t: T('settings.ttsMode.off') }
+        ], function (v) { Config.set('tts.mode', v); App.buildSettings(); });
       } else {
       App._field(w, T('settings.baseUrl'), Config.section('tts').baseUrl,
         function (v) { Config.set('tts.baseUrl', v); });
@@ -2164,14 +2227,14 @@
       if (Config.section('tts').mode === 'clone') {
         App._field(w, T('settings.model'), Config.section('tts').modelClone,
           function (v) { Config.set('tts.modelClone', v); },
-          { hint: '克隆通道使用的模型 id（服务端提供，如 MiMo 的声音克隆模型）' });
+          { hint: T('settings.cloneModelHint') });
         App._field(w, T('settings.refAudio'), Config.section('tts').reference,
           function (v) { Config.set('tts.reference', v); },
-          { hint: '必须是 wav 或 mp3；APK 里的原声是 m4a，需先转码' });
+          { hint: T('settings.refAudioHint') });
       } else if (Config.section('tts').mode === 'preset') {
         App._field(w, T('settings.model'), Config.section('tts').modelPreset,
           function (v) { Config.set('tts.modelPreset', v); },
-          { hint: '预设音色通道使用的模型 id（服务端提供）' });
+          { hint: T('settings.presetModelHint') });
         App._field(w, T('settings.presetVoice'), Config.section('tts').presetVoice,
           function (v) { Config.set('tts.presetVoice', v); });
       }
@@ -2180,7 +2243,7 @@
         { hint: T('settings.styleHint.hint') });
       }
 
-      /* ---------------- language matrix: UI / recorded voice / reply / TTS */
+      /* Language matrix: UI / recorded voice / reply / TTS */
       App._title(w, T('nav.lang'));
       var langOpts = Langs.ALL.map(function (o) { return { v: o.v, t: T(o.k) }; });
       App._select(w, T('settings.lang.ui'), Config.section('app').lang, langOpts,
@@ -2249,7 +2312,7 @@
       App._switch(w, T('settings.nsfw'), Nsfw.enabled(),
         function (v) { Nsfw.setEnabled(v); });
 
-      /* ---------------- time passage (official drove it from AppServerClock) */
+      /* Time passage (official drove it from AppServerClock) */
       App._title(w, T('settings.time'));
       App._select(w, T('settings.timeMode'), Config.section('app').timeMode || 'real', [
         { v: 'real',   t: T('time.real') },
@@ -2277,7 +2340,7 @@
         });
       }
 
-      /* ---------------- game balance / cheat (user-side replacement for
+      /* Game balance / cheat (user-side replacement for
          the official paywall: limits stay, but can be switched off freely) */
       App._title(w, T('settings.cheat'));
       var cheatHint = document.createElement('div');
@@ -2322,7 +2385,7 @@
       var bImp = document.createElement('button');
       bImp.className = 'btn'; bImp.textContent = T('settings.import');
       bImp.onclick = function () {
-        var txt = prompt('粘贴配置 JSON');
+        var txt = prompt(I18n.t('settings.importPrompt'));
         if (!txt) return;
         try {
           Config.importJSON(txt);
@@ -2330,7 +2393,7 @@
           App.buildSettings(); App.buildCharaForm();
           App.toast(I18n.t('toast.saved'));
         }
-        catch (e) { App.toast('配置解析失败：' + e.message, true); }
+        catch (e) { App.toast(I18n.t('toast.importFail') + e.message, true); }
       };
       row2.appendChild(bExp); row2.appendChild(bImp);
       w.appendChild(row2);
@@ -2363,10 +2426,10 @@
     _testLlm: function () {
       var llm = Config.section('llm');
       if (!llm.apiKey) { App.toast(I18n.t('toast.needKey'), true); return; }
-      App.toast('测试中…');
+      App.toast(I18n.t('toast.testing'));
       Api.chat([], '短く一言、あいさつして。', { mode: 'chat', style: 'text' })
         .then(function (r) { App.toast('OK：' + r.text); })
-        .catch(function (e) { App.toast('失败：' + e.message, true); });
+        .catch(function (e) { App.toast(I18n.t('toast.failed') + e.message, true); });
     },
 
     _testTts: function () {
@@ -2381,14 +2444,14 @@
       if (tts.provider !== 'fish' && Api.isPlaceholderModel(model)) {
         App.toast(I18n.t('toast.needModel'), true); return;
       }
-      App.toast('合成中…');
+      App.toast(I18n.t('toast.synthesizing'));
       /* no explicit mode → Api.speak uses the live talk mode, so this
          doubles as a preview of the per-mode voice direction. */
       Api.speak('やあ、聞こえてる？').then(function (url) {
-        if (!url) { App.toast('语音已关闭'); return; }
+        if (!url) { App.toast(I18n.t('toast.voiceOff')); return; }
         App.playUrl(url);
         App.toast('OK');
-      }).catch(function (e) { App.toast('失败：' + e.message, true); });
+      }).catch(function (e) { App.toast(I18n.t('toast.failed') + e.message, true); });
     },
 
     buildCharaForm: function () {
@@ -2397,7 +2460,7 @@
       var T = function (k) { return I18n.t(k); };
       var c = Config.section('chara'), p = Config.section('profile');
 
-      App._title(w, 'ライザ（キャラ設定）');
+      App._title(w, T('chara.titleRyza'));
       App._field(w, T('chara.personality'), c.personality,
         function (v) { Config.set('chara.personality', v); });
       App._field(w, T('chara.likes'), c.likes,
@@ -2411,7 +2474,7 @@
       App._field(w, T('chara.extra'), c.extra,
         function (v) { Config.set('chara.extra', v); }, { multi: true });
 
-      App._title(w, 'あなた（プレイヤー設定）');
+      App._title(w, T('chara.titleYou'));
       App._field(w, T('onb.name'), p.name,
         function (v) { Config.set('profile.name', v); });
       App._field(w, T('onb.birthday'), p.birthday,
@@ -2441,19 +2504,19 @@
       var row = document.createElement('div');
       row.className = 'btn-row';
       var b = document.createElement('button');
-      b.className = 'btn primary'; b.textContent = '保存并回到对话';
+      b.className = 'btn primary'; b.textContent = T('chara.saveAndTalk');
       b.onclick = function () { App.toast(I18n.t('toast.saved')); App.showView('talk'); };
       row.appendChild(b);
       var b2 = document.createElement('button');
-      b2.className = 'btn danger'; b2.textContent = '清空对话记忆';
+      b2.className = 'btn danger'; b2.textContent = T('chara.clearHistory');
       b2.onclick = function () {
-        if (confirm('清空当前对话历史？')) { App.history = []; App.toast('已清空'); }
+        if (confirm(I18n.t('toast.confirmClearHist'))) { App.history = []; App.toast(I18n.t('toast.cleared')); }
       };
       row.appendChild(b2);
       w.appendChild(row);
     },
 
-    /* -------------------------------------------------------- save slots */
+    /* Save slots */
     _loadSlots: function () {
       var slots;
       try { slots = JSON.parse(localStorage.getItem(SAVE_KEY) || '[]'); }

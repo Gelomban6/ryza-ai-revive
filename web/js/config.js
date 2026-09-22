@@ -13,7 +13,7 @@
   var KEY = 'ryza.settings.v1';
 
   var DEFAULTS = {
-    /* ---- LLM (OpenAI-compatible) ---- */
+    /* LLM (OpenAI-compatible) */
     llm: {
       baseUrl: '',
       model: 'gpt-4o-mini',
@@ -36,7 +36,7 @@
       summaryCap: 8                // 总结 cards before they fold into one same-layer 总结
     },
 
-    /* ---- TTS providers ----
+    /* TTS providers
        provider 'openai': any OpenAI-compatible chat/completions + audio.voice
                           (e.g. Xiaomi MiMo voice-clone).
        provider 'qwen'  : DashScope-compatible TTS (official, workspace, or
@@ -76,10 +76,11 @@
       fishApiKey: '',
       fishModel: 'fishaudio-s21pro-flash',
       fishVoice: '',
+      edgeVoice: 'ja-JP-NanamiNeural',
       lang: 'auto'                   // 朗读语言（auto=与 llm.lang 实际值一致）
     },
 
-    /* ---- language matrix (all independent) ----
+    /* Language matrix (all independent)
        app.lang   = UI strings            (zh | zh-tw | ja | en | hi | id | pt-br)
        voice.lang = shipped voice packs   ('auto' = follow UI, or an explicit code)
        llm.lang   = what the model writes ('auto' = follow UI)
@@ -87,7 +88,7 @@
                     triggers an LLM translation pass before synthesis) */
     voice: { lang: 'auto' },
 
-    /* ---- character / persona (fed into the system prompt) ---- */
+    /* Character / persona (fed into the system prompt) */
     chara: {
       personality: '明るく前向き、少しおっちょこちょいな錬金術士',
       likes: '調合、冒険、甘いもの',
@@ -97,7 +98,7 @@
       extra: ''
     },
 
-    /* ---- player profile (onboarding answers) ---- */
+    /* Player profile (onboarding answers) */
     profile: {
       name: '', birthday: '', gender: '',
       appearance: '', background: '', hobby: '', interest: '',
@@ -107,7 +108,7 @@
 
     audio: { bgm: 0.55, ambient: 0.45, voice: 1, se: 0.85 },
 
-    /* ---- presentation ---- */
+    /* Presentation */
     app: {
       lang: 'zh',                    // zh | zh-tw | ja | en | hi | id | pt-br
       voice: true,
@@ -123,7 +124,7 @@
       cheat: false                   // 作弊：体力 + 金币无限（地图/任务不改）
     },
 
-    /* ---- session state ---- */
+    /* Session state */
     state: {
       mode: 'chat',                  // chat | story | immersive | asmr | text
       style: 'voice',                // voice | text

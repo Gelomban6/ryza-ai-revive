@@ -306,8 +306,9 @@
     var dest = { emotion: null, attitude: null, nsfw: null, stage: null, tod: null, advance: null };
     var body = String(text || '').replace(/^\uFEFF/, '').trim();
     body = body.replace(/^```[\w-]*\s*\n?/, '').replace(/\n```\s*$/, '').trim();
-    body = body.replace(/^<think\b[^>]*>[\s\S]*?<\/think>\s*/i, '');
-    body = body.replace(/^<reasoning\b[^>]*>[\s\S]*?<\/reasoning>\s*/i, '');
+    body = body.replace(/^<think\b[^>]*>[\s\S]*?(?:<\/think>|$)\s*/i, '');
+    body = body.replace(/^<reasoning\b[^>]*>[\s\S]*?(?:<\/reasoning>|$)\s*/i, '');
+    body = body.replace(/^Thinking Process:\s*[\s\S]*?(?=\n\n(?:\[|[^1-9\s*]))/i, '').trim();
     var n = 0;
     while (n++ < 3 && body.charAt(0) === '[') {
       var end = body.indexOf(']');
@@ -325,7 +326,27 @@
   }
 
   function upstreamUrl(baseUrl, path) {
-    return String(baseUrl || '').replace(/\/+$/, '') + path;
+    var base = String(baseUrl || '').trim();
+    if (base && !/^https?:\/\//i.test(base)) base = 'http://' + base;
+    base = base.replace(/\/+$/, '');
+    try {
+      var u = new URL(base);
+      if ((!u.pathname || u.pathname === '/') && /^\/(chat\/completions|models)\b/.test(path)) {
+        base += '/v1';
+      }
+    } catch (e) {
+      if (!/\/[^\/]+/.test(base.replace(/^https?:\/\/[^\/]+/, '')) && /^\/(chat\/completions|models)\b/.test(path)) {
+        base += '/v1';
+      }
+    }
+    return base + path;
+  }
+
+  function isLocalEndpoint(url) {
+    var s = String(url || '').trim();
+    if (!s) return false;
+    if (!/^https?:\/\//i.test(s)) s = 'http://' + s;
+    return /^https?:\/\/(127\.0\.0\.1|localhost|0\.0\.0\.0|\[::1\]|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?(\/|$)/i.test(s);
   }
 
   /* Three hosts ship a same-origin /_proxy: scripts/serve.py (loopback http),
@@ -337,7 +358,7 @@
      still calls the endpoint directly. */
   function localProxy(target) {
     var or = String(location.origin || '');
-    if (!/^https?:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/i.test(or) &&
+    if (!/^https?:\/\/(127\.0\.0\.1|localhost|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$/i.test(or) &&
         !/^ryza:\/\/app$/i.test(or)) return target;
     return '/_proxy?u=' + encodeURIComponent(target);
   }
@@ -637,6 +658,14 @@
     return urls;
   }
 
+  function edgeDefaultVoice(lang) {
+    var lg = String(lang || (window.Langs ? Langs.tts() : 'ja')).toLowerCase();
+    if (lg.indexOf('zh') === 0) return 'zh-CN-XiaoxiaoNeural';
+    if (lg.indexOf('en') === 0) return 'en-US-JennyNeural';
+    if (lg.indexOf('id') === 0) return 'id-ID-GadisNeural';
+    return 'ja-JP-NanamiNeural';
+  }
+
   var _fishCloneWait = null;
 
   function qwenDefaultVoice(model, current) {
@@ -684,16 +713,23 @@
   }
 
   function choiceText(j) {
-    var m = j && j.choices && j.choices[0] && j.choices[0].message;
-    if (!m) return '';
+    var c0 = j && j.choices && j.choices[0];
+    var m = c0 && c0.message;
+    if (!m) {
+      if (c0 && typeof c0.text === 'string') return c0.text;
+      return '';
+    }
     var c = m.content;
-    if (typeof c === 'string') return c;
+    if (typeof c === 'string' && c.length > 0) return c;
     if (Array.isArray(c)) {
-      return c.map(function (p) {
+      var text = c.map(function (p) {
         return (p && (p.text || p.content || '')) || '';
       }).join('');
+      if (text.length > 0) return text;
     }
-    return '';
+    if (typeof m.reasoning === 'string' && m.reasoning.length > 0) return m.reasoning;
+    if (typeof m.reasoning_content === 'string' && m.reasoning_content.length > 0) return m.reasoning_content;
+    return typeof c === 'string' ? c : '';
   }
 
   /* CJK-heavy estimator. Used only as a budget fence, not a billing meter. */
@@ -721,6 +757,7 @@
     if (/claude/.test(id)) return 200000;
     if (/gemini/.test(id)) return 128000;
     if (/deepseek/.test(id)) return 65536;
+    if (/qwen3\.5|qwen-3\.5/.test(id)) return 262144;
     if (/qwen3|qwen2\.5|qwen2/.test(id)) return 32768;
     if (/qwen/.test(id)) return 32768;
     if (/llama-?3\.1|llama3\.1/.test(id)) return 131072;
@@ -885,9 +922,12 @@
     if (/openrouter\.ai/i.test(url)) return 'openrouter';
     if (/dashscope|aliyuncs/i.test(url)) return 'qwen';
     if (/bigmodel\.cn|zhipuai/i.test(url) || /glm-?5/i.test(id)) return 'glm';
+    if (isLocalEndpoint(url) && /qwen3\.5|qwen-3\.5|qwq|deepseek-r1|r1|reasoner/i.test(id)) {
+      return 'openai';
+    }
     if (/qwq|qwen.*think/i.test(id)) return 'qwen';
     if (meta && meta.thinking) return /openrouter/i.test(url) ? 'openrouter' : 'openai';
-    if (/^(o1|o3|o4|gpt-5)/i.test(id) || /reasoner|r1|qwq/i.test(id)) {
+    if (/^(o1|o3|o4|gpt-5)/i.test(id) || /reasoner|r1|qwq|qwen3\.5|qwen-3\.5/i.test(id)) {
       return /qwen|dashscope/i.test(url + id) ? 'qwen' : 'openai';
     }
     return 'none';
@@ -911,6 +951,16 @@
     var mapped = mapEffort(wanted, available);
 
     if (wanted === 'default') {
+      if (mode === 'off' || (mode === 'auto' && isLocalEndpoint(llm && llm.baseUrl))) {
+        if (style === 'openai') {
+          body.reasoning_effort = 'none';
+          return body;
+        }
+        if (style === 'qwen') {
+          body.enable_thinking = false;
+          return body;
+        }
+      }
       if (mode !== 'on') return body;
       if (style === 'qwen') {
         body.enable_thinking = true;
@@ -925,6 +975,9 @@
 
     if (style === 'openai') {
       if (mapped) body.reasoning_effort = mapped;
+      if (mapped && mapped !== 'none') {
+        body.max_tokens = Math.max(Number(body.max_tokens) || 400, 1500);
+      }
       return body;
     }
     if (style === 'openrouter') {
@@ -985,6 +1038,7 @@
     /* test seam: which calls get rewritten onto the same-origin /_proxy
        (nsfw_intent_regression asserts serve.py + ryza://app both route) */
     _localProxy: localProxy,
+    isLocalEndpoint: isLocalEndpoint,
     QWEN_DEFAULT_BASE: QWEN_DEFAULT_BASE,
     QWEN_TTS_MODELS: QWEN_TTS_MODELS,
     QWEN_TTS_VOICES: QWEN_TTS_VOICES,
@@ -1008,9 +1062,8 @@
       return (window.Langs && Langs.llm()) || 'ja';
     },
 
-    /* ------------------------------------------------- translate channel
-       Used when the TTS language differs from the reply language: the
-       displayed text stays, the spoken text is re-voiced in another
+    /* Translate channel: used when the TTS language differs from the reply
+       language: the displayed text stays, the spoken text is re-voiced in another
        language by the same LLM. */
     translate: function (text, toLang) {
       if (!text || !toLang || toLang === Api.replyLang()) {
@@ -1032,10 +1085,10 @@
       }).catch(function () { return text; });
     },
 
-    /* ------------------------------------------------------------- LLM */
+    /* LLM chat completions */
     chat: function (history, userText, opts) {
       var llm = Config.section('llm');
-      if (!llm.apiKey) return Promise.reject(new Error('NO_KEY'));
+      if (!llm.apiKey && !isLocalEndpoint(llm.baseUrl)) return Promise.reject(new Error('NO_KEY'));
       opts = opts || {};
       var st = Config.section('state');
       var outLang = opts.lang || Api.replyLang();
@@ -1078,7 +1131,7 @@
     complete: function (system, user, opts) {
       opts = opts || {};
       var llm = Config.section('llm');
-      if (!llm.apiKey) return Promise.reject(new Error('NO_KEY'));
+      if (!llm.apiKey && !isLocalEndpoint(llm.baseUrl)) return Promise.reject(new Error('NO_KEY'));
       return request(localProxy(upstreamUrl(llm.baseUrl, '/chat/completions')), {
         model: llm.model,
         messages: [
@@ -1094,7 +1147,7 @@
 
     listModels: function () {
       var llm = Config.section('llm');
-      if (!llm.apiKey) return Promise.reject(new Error('NO_KEY'));
+      if (!llm.apiKey && !isLocalEndpoint(llm.baseUrl)) return Promise.reject(new Error('NO_KEY'));
       if (!llm.baseUrl) return Promise.reject(new Error('NO_URL'));
       return requestGet(localProxy(upstreamUrl(llm.baseUrl, '/models')), llm.apiKey, 20000)
         .then(function (j) {
@@ -1136,7 +1189,6 @@
       return pull(0);
     },
 
-    /* ------------------------------------------------------------- TTS */
     /* Resolves to a Blob URL. Returns null when voice is disabled.
        provider: 'openai' (chat/completions + audio, MiMo-style),
        'qwen' (DashScope-compatible TTS), or 'fish' (Fish Audio Open API
@@ -1147,9 +1199,11 @@
       mode = mode || (Config.section('state') || {}).mode || 'chat';
       /* Per-provider credentials: qwen has its own baseUrl/apiKey so a MiMo
          setup can never leak into a DashScope call (or back). */
+      if (tts.provider === 'edge') return Api._edgeSpeak(text, lang, mode);
+      if (tts.provider === 'openai-speech') return Api._openAiSpeech(text, lang, mode);
       if ((tts.provider || 'openai') === 'qwen') return Api._qwenSpeak(text, lang, mode);
       if (tts.provider === 'fish') return Api._fishSpeak(text, lang, mode);
-      if (!tts.apiKey) return Promise.reject(new Error('NO_KEY'));
+      if (!tts.apiKey && !isLocalEndpoint(tts.baseUrl)) return Promise.reject(new Error('NO_KEY'));
 
       var audio = { format: tts.format || 'wav' };
       if (tts.mode === 'clone') {
@@ -1190,7 +1244,7 @@
       return send(audio.voice);
     },
 
-    /* ------------------------------------------- Qwen / Bailian (DashScope) */
+    /* Qwen / Bailian (DashScope) */
     _qwenSpeak: function (text, lang, mode) {
       var tts = Config.section('tts');
       if (!tts.qwenApiKey) return Promise.reject(new Error('NO_KEY'));
@@ -1239,7 +1293,7 @@
       }).then(function (blob) { return URL.createObjectURL(blob); });
     },
 
-    /* ------------------------------------------- Fish Audio Open API TTS */
+    /* Fish Audio Open API TTS */
     _fishSpeak: function (text, lang, mode) {
       var tts = Config.section('tts');
       if (!tts.fishApiKey) return Promise.reject(new Error('NO_KEY'));
@@ -1280,6 +1334,45 @@
       });
       return _fishCloneWait.then(synth);
     },
+
+    _openAiSpeech: function (text, lang, mode) {
+      var tts = Config.section('tts');
+      if (!tts.apiKey && !isLocalEndpoint(tts.baseUrl)) return Promise.reject(new Error('NO_KEY'));
+      var model = String(tts.modelPreset || 'tts-1').trim() || 'tts-1';
+      var voice = String(tts.presetVoice || 'alloy').trim() || 'alloy';
+      var fmt = (tts.format === 'mp3') ? 'mp3' : 'wav';
+      var base = String(tts.baseUrl || 'http://localhost:8880/v1').trim().replace(/\/+$/, '');
+      if (!/\/v1$/i.test(base) && !/\/audio\/speech$/i.test(base)) {
+        base += '/v1';
+      }
+      var url = /\/audio\/speech$/i.test(base) ? base : base + '/audio/speech';
+      var body = {
+        model: model,
+        input: text,
+        voice: voice,
+        response_format: fmt
+      };
+      return requestAudio(localProxy(url), body, tts.apiKey, 180000);
+    },
+
+    _edgeSpeak: function (text, lang, mode) {
+      var tts = Config.section('tts');
+      var voice = String(tts.edgeVoice || '').trim() || edgeDefaultVoice(lang);
+      var url = '/_edge_tts?text=' + encodeURIComponent(text) + '&voice=' + encodeURIComponent(voice);
+      return fetch(url).then(function (res) {
+        if (!res.ok) {
+          return res.json().catch(function () { return {}; }).then(function (j) {
+            var msg = (j && j.error && j.error.message) || ('HTTP ' + res.status);
+            throw new Error(msg);
+          });
+        }
+        return res.blob();
+      }).then(function (blob) {
+        return URL.createObjectURL(blob);
+      });
+    },
+
+    edgeDefaultVoice: edgeDefaultVoice,
 
     listFishVoices: function () {
       var tts = Config.section('tts');

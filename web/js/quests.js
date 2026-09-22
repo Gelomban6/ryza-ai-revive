@@ -16,7 +16,7 @@
 (function (global) {
   'use strict';
 
-  /* ------------------------------------------------------------ definitions */
+  /* Quest definitions */
   var CHAIN = [
     { no: 1, type: 'talk',    title: 'まずは会話をしてみよう',
       desc: 'ライザと会話して、お互いのことにもっと慣れる。',
@@ -77,9 +77,13 @@
     area_05: ['relic', 'cloth', 'ore', 'ironwood']
   };
   var RECIPES = [
-    { out: 'bottle', name: '回復のボトル', in: [['emeralia', 1], ['wasser', 1]] },
-    { out: 'bomb',   name: '爆弾瓶',       in: [['uni', 1], ['wasser', 1], ['ore', 1]] },
-    { out: 'charm',  name: 'お守りの指輪', in: [['relic', 1], ['cloth', 1]] }
+    { out: 'bottle',      name: '回復のボトル', in: [['emeralia', 1], ['wasser', 1]] },
+    { out: 'bomb',        name: '爆弾瓶',       in: [['uni', 1], ['wasser', 1], ['ore', 1]] },
+    { out: 'charm',       name: 'お守りの指輪', in: [['relic', 1], ['cloth', 1]] },
+    { out: 'flam',        name: 'フラム',       in: [['ore', 1], ['mushroom', 1]] },
+    { out: 'herb_tea',    name: 'ハーブティー', in: [['honey', 1], ['wasser', 1], ['mushroom', 1]] },
+    { out: 'elixir',      name: 'エリクシル剤', in: [['honey', 1], ['emeralia', 2], ['bottle', 1]] },
+    { out: 'philosopher', name: '賢者の石',     in: [['relic', 1], ['ore', 2], ['shell', 1]] }
   ];
   var PART_ITEMS = ['driftwood', 'ironwood', 'cloth', 'ore'];
   var PART_NAMES = { driftwood: '船底の竜骨材', ironwood: 'マストの堅木', cloth: '大きな帆布', ore: '魔石入りの留め金' };
@@ -106,8 +110,9 @@
   var Quests = {
     PRAISES: PRAISES,
     CHAIN: CHAIN,
+    RECIPES: RECIPES,
 
-    /* ---------------------------------------------------------- lifecycle */
+    /* Lifecycle */
     ensure: function () {
       if (!Game.s.quest) Quests.startNo(Game.flag('quest_no', 0) + 1 || 1);
       return Game.s.quest;
@@ -194,7 +199,7 @@
       return L('qobs.' + q.type, fb);
     },
 
-    /* ------------------------------------------------------- progression */
+    /* Progression */
     /* Deterministic event feed used by app.js (talk turn / stage move). */
     progressEvent: function (what, amount) {
       var q = nowQuest();
@@ -269,8 +274,7 @@
 
     pendingAdvance: function () { return !!Quests._pendingAdvance; },
 
-    /* ------------------------------------------------------- action engine
-       Each action: stamina-priced, deterministic, returns
+    /* Action engine: each action is stamina-priced, deterministic, returns
          { ok, line, action, deltas? } — App shows `line` in the bubble. */
     doAction: function (actType, ctx) {
       var q = nowQuest();
@@ -426,8 +430,7 @@
         line: L('qact.sail.ok', '出発の時間だ——！ クーケン島を離れて、自由な旅へ。世界の扉、開いたよ！') };
     },
 
-    /* ------------------------------------------------------------- refund
-       Actions with `refund: true` consumed nothing but were blocked;
+    /* Refund: actions with `refund: true` consumed nothing but were blocked;
        hand the quest cost back so failed attempts are free. */
     refundAction: function (res) {
       if (res && !res.ok && !res.spent && !res.faint) {
@@ -436,7 +439,7 @@
       }
     },
 
-    /* ------------------------------------------------------------- sheet UI */
+    /* Quest sheet UI */
     render: function (root, hooks) {
       if (!root) return;
       root.innerHTML = '';
@@ -546,7 +549,7 @@
       }
     },
 
-    /* ---------------------------------------------------------- prompt block */
+    /* Prompt block */
     promptBlock: function () {
       var q = Quests.ensure();
       var L = [];
@@ -571,8 +574,7 @@
   }
   function itemValue(id) { return (Game.ITEMS[id] && Game.ITEMS[id].value) || 10; }
 
-  /* ------------------------------------------------- welcome mission screen
-     features/welcome_mission — five onboarding tiles on the shipped art. */
+  /* Welcome mission screen (features/welcome_mission): five onboarding tiles on shipped art. */
   var WELCOME_STEPS = [
     { id: 'talk', icon: 'icon_scroll', titleKey: 'wm.talk.title', descKey: 'wm.talk.desc' },
     { id: 'map', icon: 'icon_clock', titleKey: 'wm.map.title', descKey: 'wm.map.desc' },

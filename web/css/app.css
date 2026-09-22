@@ -39,7 +39,7 @@ input,select,textarea{font:inherit;color:inherit}
 ::-webkit-scrollbar-thumb:hover{background:rgba(232,180,92,.55);background-clip:content-box}
 ::-webkit-scrollbar-corner{background:transparent}
 
-/* ------------------------------------------------------------ stage */
+/* Stage */
 #stage{position:absolute;inset:0;z-index:0;background:#0b0810}
 #scene-canvas,#avatar-hit{position:absolute;inset:0;width:100%;height:100%;display:block}
 #scene-canvas{background:#0b0810}
@@ -67,7 +67,7 @@ input,select,textarea{font:inherit;color:inherit}
   z-index:3;pointer-events:none;
   background:linear-gradient(0deg,rgba(8,6,10,.45),rgba(8,6,10,.14) 55%,transparent)}
 
-/* ----------------------------------------------------------- topbar
+/* Topbar
    Official single row (2026-09-07 UI pass, from the shipped screenshots):
    transparent bar, hamburger left, voice/text pill + » right. The old
    two-row topbar+subbar HUD moved to the stage edges (#hud-cluster left,
@@ -121,7 +121,7 @@ input,select,textarea{font:inherit;color:inherit}
 .side-item .round.gold{background:linear-gradient(150deg,rgba(232,180,92,.92),rgba(201,143,60,.88))}
 .side-item .round.gold img{filter:none}
 
-/* ----------------------------------------------------------- drawer */
+/* Drawer */
 /* Electron frameless shell: drag the window by the HUD strip; every
    interactive thing stays clickable. Controls injected by shell.js. */
 body.shell-electron #topbar{-webkit-app-region:drag}
@@ -161,7 +161,7 @@ body.boot #topbar > *{display:none}
 body.boot #topbar > #winctl{display:flex;pointer-events:auto;
   margin-left:auto;opacity:.55}
 
-/* ------------------------------------------------------------- views */
+/* Views */
 .view{position:absolute;inset:0;z-index:20;display:none;flex-direction:column;
   padding-top:var(--bars-h)}
 .view.active{display:flex}
@@ -182,7 +182,7 @@ body.boot #topbar > #winctl{display:flex;pointer-events:auto;
 select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9px;padding:6px 9px;font-size:13px;
   max-width:46vw;overflow:hidden;text-overflow:ellipsis}
 
-/* --------------------------------------------------------- talk view */
+/* Talk view */
 #mode-bar{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;
   -webkit-overflow-scrolling:touch}
 #mode-bar::-webkit-scrollbar{display:none}
@@ -275,6 +275,15 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
 @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
 #bubble-text{white-space:pre-wrap;word-break:break-word}
 
+.quick-actions{display:flex;gap:7px;align-items:center;padding:4px 0 6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:0 0 auto}
+.quick-actions::-webkit-scrollbar{display:none}
+.qa-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;font-size:12px;
+  background:rgba(26,18,22,.76);border:1px solid var(--line);border-radius:14px;
+  color:var(--text);white-space:nowrap;cursor:pointer;transition:.15s;line-height:1.2}
+.qa-chip:hover{border-color:var(--gold);color:var(--gold);background:rgba(36,25,31,.9)}
+.qa-chip:active{transform:scale(.96)}
+.qa-icon{font-size:13px;line-height:1}
+
 /* input row — ×N speed circle, pill input with the ✳ (new talk) glyph,
    orange round send (official bottom bar) */
 #input-bar{display:flex;gap:9px;align-items:center;padding:8px 0 2px;flex:0 0 auto}
@@ -292,7 +301,7 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
 .send-btn img{filter:none}
 .send-btn:disabled{opacity:.45}
 
-/* -------------------------------------------------------- world view */
+/* World view */
 #world-body{flex:1;display:flex;overflow:hidden}
 #world-fields{flex:1;overflow:auto;padding:10px 12px 16px;display:flex;flex-direction:column;gap:10px}
 .map-crumbs{display:flex;flex-wrap:wrap;gap:6px;padding:0 2px 4px}
@@ -323,7 +332,7 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
 .npc-row .npc-name{font-size:13.5px}
 .npc-row .npc-note{font-size:11px;color:var(--dim)}
 
-/* --------------------------------------------------------- list views */
+/* List views */
 #quest-list,#alarm-list,#memory-list{flex:1;overflow:auto;padding:14px;display:flex;
   flex-direction:column;gap:10px}
 .card{background:rgba(26,18,22,.82);border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px}
@@ -337,7 +346,7 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
 .tag.leaf{background:rgba(127,176,105,.16);color:var(--leaf)}
 .empty{text-align:center;color:#6d5f57;padding:40px 20px;font-size:13.5px;line-height:1.8}
 
-/* ----------------------------------------------------------- skins */
+/* Skins */
 #skin-grid{flex:1;overflow:auto;padding:14px;display:grid;gap:12px;
   grid-template-columns:repeat(auto-fill,minmax(140px,1fr));align-content:start}
 .skin-card{background:rgba(26,18,22,.82);border:1px solid var(--line);border-radius:var(--radius);
@@ -348,7 +357,7 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
 .skin-cap{padding:8px 10px;font-size:12px;display:flex;justify-content:space-between;gap:6px}
 .skin-id{color:var(--dim);font-size:10.5px}
 
-/* ----------------------------------------------------------- forms */
+/* Forms */
 .form-wrap{flex:1;overflow:auto;padding:14px 16px calc(24px + var(--safe-b));max-width:720px;width:100%}
 .field{margin-bottom:15px}
 .field label{display:block;font-size:12.5px;color:var(--dim);margin-bottom:5px;letter-spacing:.03em}
@@ -385,7 +394,7 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
   background:rgba(26,18,22,.7);color:var(--dim);transition:.14s}
 .chip.on{background:rgba(232,180,92,.2);border-color:var(--gold);color:var(--gold)}
 
-/* ---------------------------------------------------------- toasts */
+/* Toasts */
 #toast-host{position:absolute;left:50%;transform:translateX(-50%);
   top:calc(var(--bars-h) + 8px);z-index:200;
   display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none;width:92%;max-width:420px}
@@ -395,7 +404,7 @@ select{background:rgba(20,14,18,.9);border:1px solid var(--line);border-radius:9
 .toast.err{border-color:rgba(220,90,70,.5);color:#ffb0a0}
 @keyframes tin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ----------------------------------------------------------- modal */
+/* Modal */
 #modal-scrim{position:absolute;inset:0;z-index:180;background:rgba(0,0,0,.55);
   display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(12px + var(--safe-b))}
 #modal-scrim.hidden{display:none}
@@ -471,7 +480,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .slot-row{display:flex;gap:8px;align-items:center;margin-bottom:10px}
 .skin-card.locked{cursor:not-allowed;opacity:.75}
 
-/* --------------------------------------------------- RPG HUD / quests */
+/* RPG HUD / quests */
 /* (the visual rules live up in the talk-view block: .apple-row / .money-pill) */
 .apple-mini{width:15px;height:15px;display:inline-block;vertical-align:-2px}
 #hud-money img{filter:none}
@@ -504,7 +513,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .badge-dot{width:8px;height:8px;border-radius:50%;background:var(--ember);display:inline-block;
   margin-left:auto;box-shadow:0 0 8px rgba(255,138,76,.8)}
 
-/* ------------------------------------------------------- daily login */
+/* Daily login */
 .dl-head h3{margin:0 0 4px}
 .dl-sub{color:var(--dim);font-size:13px;margin:0 0 4px}
 .dl-prog{color:var(--gold);font-size:13px;margin:0 0 12px}
@@ -521,7 +530,7 @@ input[type=range]{width:100%;accent-color:var(--gold)}
 .dl-cell.next{border-color:rgba(255,138,76,.6)}
 .dl-goal{font-size:12.5px;color:var(--dim);margin:0 0 12px}
 
-/* -------------------------------------------------- faint / status sheet */
+/* Faint / status sheet */
 .faint-msg{color:var(--dim);font-size:13.5px;line-height:1.7;max-width:300px;margin:0 0 6px}
 .st-row{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;
   padding:9px 2px;border-bottom:1px solid var(--line)}

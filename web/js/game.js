@@ -40,8 +40,12 @@
     bottle:    { name: '回復のボトル',   value: 60,  kind: 'tool', stamina: 25 },
     bomb:      { name: '爆弾瓶',         value: 48,  kind: 'tool', battle: 2 },
     charm:     { name: 'お守りの指輪',   value: 90,  kind: 'tool', battle: 3 },
-    relic:     { name: '古代の遺物',     value: 150, kind: 'treasure' },
-    apple:     { name: 'スタミナリンゴ', value: 40,  kind: 'tool', stamina: 999 }
+    relic:       { name: '古代の遺物',     value: 150, kind: 'treasure' },
+    apple:       { name: 'スタミナリンゴ', value: 40,  kind: 'tool', stamina: 999 },
+    flam:        { name: 'フラム',         value: 80,  kind: 'tool', battle: 5 },
+    herb_tea:    { name: 'ハーブティー',   value: 35,  kind: 'tool', stamina: 20 },
+    elixir:      { name: 'エリクシル剤',   value: 120, kind: 'tool', stamina: 60 },
+    philosopher: { name: '賢者の石',       value: 300, kind: 'treasure' }
   };
   function itemName(id) {
     var base = (ITEMS[id] && ITEMS[id].name) || id;
@@ -152,12 +156,12 @@
       Game.emit('reset');
     },
 
-    /* ------------------------------------------------- cheat (stamina + gold only) */
+    /* Cheat (stamina + gold only) */
     cheat: function () {
       return !!(window.Config && Config.section('app').cheat);
     },
 
-    /* -------------------------------------------------------- level curve */
+    /* Level curve */
     level: function () { return levelForExp(Game.s.exp_total); },
     max: function () { return staminaMaxForExpTotal(Game.s.exp_total); },
     expIntoLevel: function () {
@@ -167,7 +171,7 @@
       return { into: e - lower, span: Math.max(1, upper - lower) };
     },
 
-    /* ----------------------------------------------------------- stamina */
+    /* Stamina */
     apples: function () {
       var size = appleSize();
       var filled = Math.ceil(Game.s.stamina / size);
@@ -208,7 +212,7 @@
     },
     faint: function () { return !Game.cheat() && Game.s.stamina <= 0; },
 
-    /* ---------------------------------------------------------- economy */
+    /* Economy */
     addMoney: function (n) {
       n = Number(n) || 0;
       if (Game.cheat() && n < 0) return;
@@ -235,7 +239,7 @@
       return after > before;
     },
 
-    /* ------------------------------------------------------------ bags */
+    /* Bags */
     bagList: function (which) {
       return which === 'ryza' ? Game.s.ryza_inventory : Game.s.inventory;
     },
@@ -299,7 +303,7 @@
       return true;
     },
 
-    /* ----------------------------------------------------- world / people */
+    /* World / people */
     meetCharas: function (npcList, day) {
       var added = [];
       (npcList || []).forEach(function (n) {
@@ -327,7 +331,7 @@
       Game.emit('memory');
     },
 
-    /* ------------------------------------------------------- flag helpers */
+    /* Flag helpers */
     flag: function (k, dv) {
       var v = Game.s.flags[k];
       return v === undefined ? (dv || 0) : v;
@@ -338,7 +342,7 @@
       Game.emit('flags');
     },
 
-    /* ------------------------------------------------------------- reducer
+    /* Reducer
        Accepts the recovered wire keys (aliases below) from either channel.
        Quest-level keys (`quest`) are re-routed through Quests.onQuestDelta
        when that module exists, so quest lifecycle stays in one place. */
@@ -404,7 +408,7 @@
       return applied;
     },
 
-    /* -------------------------------------------------------- prompt block */
+    /* Prompt block */
     promptBlock: function () {
       var s = Game.s;
       var L = [];

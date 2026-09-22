@@ -65,7 +65,7 @@
     <li data-action="fullscreen"><img src="assets/icons/allscreen.svg" alt=""> <span data-i18n="nav.fullscreen">全屏</span></li>
     <li data-view="settings"><img src="assets/icons/charaedit.svg" alt=""> <span data-i18n="nav.settings">设置</span></li>
   </ul>
-  <div class="drawer-foot">离线重建版 · 不连接官方服务器</div>
+  <div class="drawer-foot" data-i18n="drawer.foot">离线重建版 · 不连接官方服务器</div>
 </nav>
 <div id="scrim"></div>
 
@@ -98,6 +98,12 @@
     <div id="retry-bar" class="hidden">
       <span data-i18n="talk.retryHint">连接失败了</span>
       <button class="mini-btn" id="btn-retry" data-i18n="talk.retry">重试</button>
+    </div>
+    <div id="quick-actions" class="quick-actions">
+      <button type="button" class="qa-chip" id="qa-greet"><span class="qa-icon">👋</span><span data-i18n="qa.greet">打招呼</span></button>
+      <button type="button" class="qa-chip" id="qa-sleep"><span class="qa-icon">💤</span><span data-i18n="qa.sleep">去睡觉</span></button>
+      <button type="button" class="qa-chip" id="qa-status"><span class="qa-icon">🍎</span><span data-i18n="qa.status">体力状态</span></button>
+      <button type="button" class="qa-chip" id="qa-bag"><span class="qa-icon">🎒</span><span data-i18n="qa.bag">打开背包</span></button>
     </div>
     <div id="input-bar">
       <button type="button" class="round-btn speed-btn" id="btn-speed" title="テキスト速度">×1</button>
@@ -145,7 +151,7 @@
 
 <section id="view-alarm" class="view">
   <div class="view-head"><h2 data-i18n="alarm.title">闹钟</h2>
-    <button class="mini-btn" id="btn-alarm-new">+ 新闹钟</button></div>
+    <button class="mini-btn" id="btn-alarm-new" data-i18n="alarm.newBtn">+ 新闹钟</button></div>
   <div id="alarm-list"></div>
 </section>
 
@@ -173,7 +179,7 @@
 
 <section id="view-settings" class="view">
   <div class="view-head"><h2 data-i18n="settings.title">设置</h2>
-    <button class="mini-btn" id="btn-settings-reset">恢复默认</button></div>
+    <button class="mini-btn" id="btn-settings-reset" data-i18n="settings.reset">恢复默认</button></div>
   <div class="form-wrap" id="settings-form"></div>
 </section>
 
@@ -257,8 +263,8 @@
     <p id="onb-sub" class="onb-sub"></p>
     <div id="onb-body"></div>
     <div class="btn-row">
-      <button type="button" class="btn" id="onb-skip">跳过</button>
-      <button type="button" class="btn primary" id="onb-next">下一步</button>
+      <button type="button" class="btn" id="onb-skip" data-i18n="onb.skip">跳过</button>
+      <button type="button" class="btn primary" id="onb-next" data-i18n="onb.next">下一步</button>
     </div>
   </div>
 </div>
@@ -303,7 +309,7 @@
   </div>
 </div>
 
-</div><!-- /phone -->
+</div>
 
 <script src="vendor/spine-webgl.js"></script>
 <script src="js/util.js?v=hash-2"></script>

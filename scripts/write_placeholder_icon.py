@@ -31,7 +31,6 @@ def _px(x: int, y: int) -> bytes:
         or (ny > 1 - r and r <= nx <= 1 - r and ny <= 0.92)
     ):
         return b"\x00\x00\x00\x00"
-    # body
     dx = nx - 0.5
     dy = ny - 0.42
     dot = dx * dx + dy * dy <= 0.035 * 0.035
@@ -45,7 +44,7 @@ def _px(x: int, y: int) -> bytes:
     return b"\xe8\x89\x3a\xff"
 
 
-def write_png(path: str) -> None:
+def make_png_data() -> bytes:
     raw = bytearray()
     for y in range(H):
         raw.append(0)
@@ -56,17 +55,24 @@ def write_png(path: str) -> None:
         crc = zlib.crc32(tag + data) & 0xFFFFFFFF
         return struct.pack(">I", len(data)) + tag + data + struct.pack(">I", crc)
     ihdr = struct.pack(">IIBBBBB", W, H, 8, 6, 0, 0, 0)
-    png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", comp) + chunk(b"IEND", b"")
+    return b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", ihdr) + chunk(b"IDAT", comp) + chunk(b"IEND", b"")
+
+
+def write_png(path: str, data: bytes | None = None) -> None:
+    if data is None:
+        data = make_png_data()
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "wb") as f:
-        f.write(png)
+        f.write(data)
 
 
 def main() -> None:
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    write_png(os.path.join(root, "desktop", "build", "icon.png"))
-    write_png(os.path.join(root, "android", "app", "src", "main", "res", "drawable", "ic_launcher.png"))
-    print("wrote generic desktop and android icons")
+    data = make_png_data()
+    write_png(os.path.join(root, "desktop", "build", "icon.png"), data)
+    write_png(os.path.join(root, "android", "app", "src", "main", "res", "drawable", "ic_launcher.png"), data)
+    write_png(os.path.join(root, "web", "assets", "images", "chara_placeholder.png"), data)
+    print("wrote generic desktop, android, and web placeholder icons")
 
 
 if __name__ == "__main__":
