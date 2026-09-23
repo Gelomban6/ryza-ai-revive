@@ -16,7 +16,17 @@
     char: 'assets/world_map/ui/char_pin.svg'
   };
 
+  /* Host-injected notice sink (see scripts/layering_check.js): the map's own
+     view code must not reach into App just to say "locked". Inert by default
+     so world.js still loads standalone. */
+  var _notice = null;
+  function notify(msg, isErr) {
+    if (!_notice) return;
+    try { _notice(msg, !!isErr); } catch (e) { /* never break the map */ }
+  }
+
   var World = {
+    setNotice: function (fn) { _notice = (typeof fn === 'function') ? fn : null; },
     hierarchy: null,
     npcs: null,
     stageMap: null,
@@ -97,15 +107,9 @@
       return TODS[(TODS.indexOf(tod) + 1) % TODS.length];
     },
 
-    /* Time-of-day bands match the alarm voice table (alarm.js todForHour) so the scene,
-       the greeting voice and the light all agree on when 朝/昼/夕/夜 start. */
+    /* Hour-to-TOD mapping delegated to Util.hourToTod as the single owner. */
     hourToTod: function (h) {
-      h = ((Number(h) % 24) + 24) % 24;
-      if (h < 5) return 'ngt';
-      if (h < 11) return 'mor';
-      if (h < 17) return 'aft';
-      if (h < 20) return 'eve';
-      return 'ngt';
+      return Util.hourToTod(h);
     },
     /* Official AppServerClock: scene.time_bucket is a FACT pushed TO marionette,
        never a command FROM it. Only the local 'flow' clock lets the LLM dial time. */
@@ -117,8 +121,7 @@
     /* representative hour at the start of a band — used when the LLM or the
        manual button SETS a band in flow mode and the game clock must snap */
     todStartHour: function (tod) {
-      return { mor: 6, aft: 12, eve: 17, ngt: 21 }[tod] != null
-        ? { mor: 6, aft: 12, eve: 17, ngt: 21 }[tod] : 12;
+      return Util.todStartHour(tod);
     },
     /* pure flow-clock advance: gameHour after `speed` in-game minutes pass per
        real minute, measured from gameClockAt to nowMs. speed=60 ⇒ 1 real min =
@@ -498,7 +501,7 @@
         }), World.mapAreaId, {
           onPick: function (it) {
             if (it.locked) {
-              if (window.App) App.toast(I18n.t('world.lockedToast'), true);
+              notify(I18n.t('world.lockedToast'), true);
               return;
             }
             World.mapLevel = 'fields';
@@ -603,7 +606,7 @@
 
     jumpArea: function (areaId, currentStageId, onPick) {
       if (World.locked(areaId)) {
-        if (window.App) App.toast(I18n.t('world.lockedToast'), true);
+        notify(I18n.t('world.lockedToast'), true);
         return;
       }
       World.mapLevel = 'fields';

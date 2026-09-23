@@ -6,7 +6,7 @@ The application is a static HTML/JavaScript runtime. Thin native hosts load the 
 
 面向实时二维立绘的本地对话客户端。应用核为静态 HTML/JavaScript；Windows（Electron）与 Android（WebView）仅提供宿主。语言模型与语音合成在运行时接入操作者配置的 HTTP API。
 
-Version **1.2.15**. License: [MIT](LICENSE). Releases: [GitHub Releases](https://github.com/zeroa234/ryza-ai-revive/releases).
+Version is pinned in `config/version.json` (single source of truth for the exe and the APK); releases are at [GitHub Releases](https://github.com/zeroa234/ryza-ai-revive/releases). License: [MIT](LICENSE).
 
 ---
 
@@ -29,6 +29,7 @@ Inference is not bundled. Settings require an OpenAI-compatible base URL, model 
 推理与语音不随仓库分发，由设置页配置。
 
 Further module-level notes: [docs/PROJECT.md](docs/PROJECT.md).
+First-run help (keys, base URLs, save slots, costumes): [docs/SETUP.md](docs/SETUP.md).
 
 ---
 
@@ -50,7 +51,7 @@ Structural tables (JSON, atlas, SVG) live in `web/assets/` and are versioned wit
 结构表随仓库版本管理；体积较大的栅格图、音频与骨骼二进制在完整运行或打包前本地恢复：
 
 ```powershell
-python scripts/restore_media.py path\to\RyzaChat-1.2.15.apk
+python scripts/restore_media.py path\to\RyzaChat-1.2.22.apk
 python scripts/restore_media.py path\to\win-unpacked\resources\web
 ```
 
@@ -85,6 +86,8 @@ node scripts/boot_smoke.js
 node scripts/game_logic_regression.js
 node scripts/memory_regression.js
 node scripts/motion_regression.js
+node scripts/save_slot_regression.js
+node scripts/transport_error_regression.js
 node scripts/expression_coverage.js
 python scripts/privacy_check.py web
 ```
