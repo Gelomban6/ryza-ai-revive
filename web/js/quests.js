@@ -116,7 +116,6 @@
   var _present = null;     /* fn(res)            — outcome of an offline action */
   var _generate = null;    /* fn(msgs, opts) -> Promise<{text}>  — LLM quest text */
   var _notice = null;      /* fn(msg, isErr)     — progress/result toast */
-  var _navigate = null;    /* fn(viewId)         — "take me to that screen" */
 
   function celebrate() {
     if (!_celebrate) return;
@@ -177,7 +176,7 @@
     /* 「無限のクエスト生成」 without the paywall: LLM invents a side quest,
        pool fallback keeps it working offline. */
     generate: function (useLLM) {
-      if (!useLLM || !window.Config || !Config.section('llm').apiKey) {
+      if (!useLLM || !window.Config || !Config.llmReady()) {
         var q = Quests.startNo(9);
         return Promise.resolve(q);
       }
@@ -232,7 +231,8 @@
       if (!q || q.complete) return null;
       var hit =
         (what === 'talk'   && q.type === 'talk') ||
-        (what === 'explore'&& q.type === 'explore');
+        (what === 'explore'&& q.type === 'explore') ||
+        (what === 'gather' && q.type === 'gather');
       if (!hit) return null;
       q.step = Math.min(q.need, (q.step | 0) + (amount || 1));
       if (q.step >= q.need) return Quests.clear();
@@ -520,7 +520,7 @@
         gen.className = 'mini-btn';
         gen.textContent = I18n.t('quest.auto');
         gen.onclick = function () {
-          var hasKey = !!(window.Config && Config.section('llm').apiKey);
+          var hasKey = !!(window.Config && Config.llmReady());
           if (hasKey) notify(I18n.t('toast.questGen'));
           Quests.generate(hasKey).then(function () {
             notify(I18n.t('quest.newOk') + '「' + Quests.titleOf(Quests.active()) + '」');
